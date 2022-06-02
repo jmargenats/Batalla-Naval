@@ -1,5 +1,5 @@
 /*
- * Nodo.h
+ * NodoX.h
  *
  *  Created on: Jun 2, 2022
  *      Author: juli
@@ -12,41 +12,51 @@
 class NodoX{
 private:
 	NodoX* anterior;
-	Casillero * casillero;
 	NodoX* siguiente;
+	Casillero* casillero;
 
 public:
 	/*
-	 * pre: casillero no debe estar vacio
-	 * pos: inicializa el nodo con el puntero adecuado
+	 * pre: el casillero ingresado no debe estar vacio
+	 * pos: se inicializa el casillero apuntando a cierto nodo
 	 */
-	NodoX( Casillero *& casillero);
+	NodoX(Casillero* casillero);
 
-	/*
-	 * 	int getInfo();
-	Nodo* getSig();
-	void setInfo(int i);
-	void setSig(Nodo*);
-	 */
-	NodoX* getCasillero();
-
-	NodoX* getAnterior();
-
-	NodoX* getSiguiente();
-
-	void setAnterior(NodoX*);
-
-	void setSiguiente(NodoX*);
 	/*
 	 * pre: -
-	 * pos: libera la memoria
+	 * pos: devuelve el puntero anterior
 	 */
-	virtual ~NodoX(){
+	NodoX* getAnterior();
 
-	}
+	/*
+	 * pre: -
+	 * pos: devuevle el puntero que apunta al nodo siguiente
+	 */
+	NodoX* getSiguiente();
 
+	/*
+	 * pre: -
+	 * pos: devuelve el puntero que apunta al casillero indicado
+	 */
+	Casillero* getCasillero();
+
+	/*
+	 * pre: -
+	 * pos: cambia el lugar al que apunta el puntero anterior
+	 */
+	void setAnterior(NodoX* ptr);
+
+	/*
+	 * pre: -
+	 * pos: cambia el lugar al que apunta el puntero siguiente
+	 */
+	void setSiguiente(NodoX* ptr);
+
+	/*
+	 * destructor
+	 */
+	virtual~NodoX();
 };
-
 
 
 

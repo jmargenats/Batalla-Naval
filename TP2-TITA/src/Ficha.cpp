@@ -15,7 +15,7 @@ Ficha :: Ficha (TipoDeFicha tipo, Jugador *jugador){
 }
 
 Ficha :: ~Ficha(){
-
+	delete jugador;
 }
 Jugador*& Ficha :: getJugador() {
 	return this-> jugador;

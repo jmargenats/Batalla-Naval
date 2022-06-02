@@ -7,9 +7,11 @@
 
 #ifndef TABLERO_H_
 #define TABLERO_H_
+#include"Casillero.h"
 
 class Tablero{
 private:
+	//Lista<Lista<Lista<Casillero *> *> *> * Casilleros;
 
 public:
 	Tablero();

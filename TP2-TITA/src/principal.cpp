@@ -2,10 +2,34 @@
 #include <string>
 #include "Casillero.h"
 #include "Ficha.h"
+#include"ListaX.h"
 using namespace std;
 
 
 int main (){
+
+
+	ListaX* longitud = new ListaX();
+
+	for(int i = 0; i < 5; i++){
+		Casillero* casillero = new Casillero(i, 1, 1, Tierra);
+		longitud->agregar(casillero);
+	}
+	delete longitud;
+
+	/*
+	Casillero* casillero = new Casillero(1,2,2,Agua);
+	NodoX* longitud = new NodoX(casillero);
+
+	cout<<longitud->getCasillero()->getPosicionEnX()<<endl;
+	delete casillero;
+	delete longitud;
+	 */
+
+	//ni idea como usar templates
+	//Lista<Casillero*> lista;
+
+
 
 	/*
 	Jugador *jugador = new Jugador(1, "Gustavo");

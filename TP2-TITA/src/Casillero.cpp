@@ -20,7 +20,7 @@ Casillero :: Casillero(unsigned int x, unsigned int y, unsigned int z, TipoDeCas
 }
 
 Casillero :: ~Casillero(){
-
+	delete ficha;
 }
 
 EstadoDeCasillero Casillero :: getEstado() const {
