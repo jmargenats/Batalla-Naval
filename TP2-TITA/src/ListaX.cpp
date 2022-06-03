@@ -4,6 +4,7 @@
  *  Created on: Jun 2, 2022
  *      Author: juli
  */
+/*
 #include"ListaX.h"
 
 ListaX :: ListaX(){
@@ -130,3 +131,4 @@ ListaX :: ~ListaX() {
 		}
 	}
 }
+*/

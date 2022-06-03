@@ -5,57 +5,73 @@
  *      Author: juli
  */
 
-#ifndef NODOX_H_
-#define NODOX_H_
-#include "Casillero.h"
+#ifndef NODO_H_
+#define NODO_H_
 
-class NodoX{
+template<class T>
+class Nodo{
 private:
-	NodoX* anterior;
-	NodoX* siguiente;
-	Casillero* casillero;
+	Nodo<T>* anterior;
+	Nodo<T>* siguiente;
+	T* puntero;
 
 public:
 	/*
 	 * pre: el casillero ingresado no debe estar vacio
 	 * pos: se inicializa el casillero apuntando a cierto nodo
 	 */
-	NodoX(Casillero* casillero);
+	Nodo(T puntero){
+		this->anterior = NULL;
+		this->siguiente = NULL;
+		this->puntero = puntero;
+	}
 
 	/*
 	 * pre: -
 	 * pos: devuelve el puntero anterior
 	 */
-	NodoX* getAnterior();
+	Nodo<T>* getAnterior(){
+		return this->anteriorl;
+	}
 
 	/*
 	 * pre: -
 	 * pos: devuevle el puntero que apunta al nodo siguiente
 	 */
-	NodoX* getSiguiente();
+	Nodo<T>* getSiguiente(){
+		return this->siguiente;
+	}
 
 	/*
 	 * pre: -
 	 * pos: devuelve el puntero que apunta al casillero indicado
 	 */
-	Casillero* getCasillero();
+	T* getPuntero(){
+		return this->puntero;
+	}
 
 	/*
 	 * pre: -
 	 * pos: cambia el lugar al que apunta el puntero anterior
 	 */
-	void setAnterior(NodoX* ptr);
+	void setAnterior(Nodo* ptr){
+		this->anterior=ptr;
+	}
 
 	/*
 	 * pre: -
 	 * pos: cambia el lugar al que apunta el puntero siguiente
 	 */
-	void setSiguiente(NodoX* ptr);
+	void setSiguiente(Nodo* ptr){
+		this->siguiente=ptr;
+	}
 
 	/*
 	 * destructor
 	 */
-	virtual~NodoX();
+	virtual~Nodo(){
+		delete puntero;
+	}
 };
 
 

@@ -2,13 +2,13 @@
 #include <string>
 #include "Casillero.h"
 #include "Ficha.h"
-#include"ListaX.h"
+#include"Lista.h"
 using namespace std;
 
 
 int main (){
 
-
+/*
 	ListaX* longitud = new ListaX();
 
 	for(int i = 0; i < 5; i++){
@@ -16,6 +16,7 @@ int main (){
 		longitud->agregar(casillero);
 	}
 	delete longitud;
+	*/
 
 	/*
 	Casillero* casillero = new Casillero(1,2,2,Agua);
