@@ -3,10 +3,15 @@
 #include "Casillero.h"
 #include "Ficha.h"
 #include"Lista.h"
+#include "Tablero.h"
 using namespace std;
 
 
 int main (){
+
+	Tablero tablero(3,3,3);
+	tablero.mostrarTablero();
+
 
 /*
 	ListaX* longitud = new ListaX();

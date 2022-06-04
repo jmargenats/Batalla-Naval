@@ -7,7 +7,8 @@
 
 #ifndef TABLERO_H_
 #define TABLERO_H_
-#include"Lista.h
+#include "Casillero.h"
+#include"Lista.h"
 
 class Tablero{
 private:
@@ -21,9 +22,16 @@ public:
 	 *pos: inicializa el tablero con los casilleros con su correspondiente casillero.
 	 */
 	Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMaximo);
+
+
+	Casillero* getCasillero(unsigned int x, unsigned int y, unsigned int z);
+
+	void setCasilla(unsigned int x, unsigned int y, unsigned int z, Casillero*);
+	void mostrarTablero();
 	virtual~ Tablero();
 };
 
+void mostrarTablero();
 
 
 #endif /* TABLERO_H_ */

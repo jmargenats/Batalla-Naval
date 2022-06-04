@@ -1,79 +1,62 @@
-/*
- * NodoX.h
- *
- *  Created on: Jun 2, 2022
- *      Author: juli
- */
-
 #ifndef NODO_H_
 #define NODO_H_
 
-template<class T>
-class Nodo{
-private:
-	Nodo<T>* anterior;
-	Nodo<T>* siguiente;
-	T* puntero;
+#ifndef NULL
+#define NULL 0
+#endif
 
-public:
-	/*
-	 * pre: el casillero ingresado no debe estar vacio
-	 * pos: se inicializa el casillero apuntando a cierto nodo
-	 */
-	Nodo(T puntero){
-		this->anterior = NULL;
-		this->siguiente = NULL;
-		this->puntero = puntero;
-	}
+template<class T> class Nodo {
 
-	/*
-	 * pre: -
-	 * pos: devuelve el puntero anterior
-	 */
-	Nodo<T>* getAnterior(){
-		return this->anteriorl;
-	}
+    private:
 
-	/*
-	 * pre: -
-	 * pos: devuevle el puntero que apunta al nodo siguiente
-	 */
-	Nodo<T>* getSiguiente(){
-		return this->siguiente;
-	}
+        T dato;
 
-	/*
-	 * pre: -
-	 * pos: devuelve el puntero que apunta al casillero indicado
-	 */
-	T* getPuntero(){
-		return this->puntero;
-	}
+        Nodo<T>* siguiente;
 
-	/*
-	 * pre: -
-	 * pos: cambia el lugar al que apunta el puntero anterior
-	 */
-	void setAnterior(Nodo* ptr){
-		this->anterior=ptr;
-	}
+    public:
 
-	/*
-	 * pre: -
-	 * pos: cambia el lugar al que apunta el puntero siguiente
-	 */
-	void setSiguiente(Nodo* ptr){
-		this->siguiente=ptr;
-	}
+        /*
+         * post: el Nodo resulta inicializado con el dato dado
+         *       y sin un Nodo siguiente.
+         */
+        Nodo(T dato) {
 
-	/*
-	 * destructor
-	 */
-	virtual~Nodo(){
-		delete puntero;
-	}
+            this->dato = dato;
+            this->siguiente = NULL;
+        }
+
+        /*
+         * post: devuelve el valor del dato.
+         */
+        T obtenerDato() {
+
+            return this->dato;
+        }
+
+        /*
+         * post: cambia el valor del dato.
+         */
+        void cambiarDato(T nuevoDato) {
+
+            this->dato = nuevoDato;
+        }
+
+        /*
+         * post: devuelve el siguiente Nodo.
+         */
+        Nodo<T>* obtenerSiguiente() {
+
+            return this->siguiente;
+        }
+
+        /*
+         * post: cambia el siguiente Nodo por nuevoSiguiente.
+         */
+        void cambiarSiguiente(Nodo<T>* nuevoSiguiente) {
+
+            this->siguiente = nuevoSiguiente;
+        }
 };
 
 
-
-#endif /* NODOX_H_ */
+#endif /* NODO_H_ */
