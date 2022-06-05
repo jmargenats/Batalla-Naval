@@ -59,7 +59,7 @@ Tablero :: Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMax
 
 
 Casillero* Tablero :: getCasillero(unsigned int x, unsigned int y, unsigned int z){
-	if(this->verificarValoresIngresados(x, y, z)){
+	if(!this->verificarValoresIngresados(x, y, z)){
 		throw "Los valores ingresados no son validos";
 	}
 	return this->casilleros->obtener(z)->obtener(y)->obtener(x);
@@ -67,7 +67,7 @@ Casillero* Tablero :: getCasillero(unsigned int x, unsigned int y, unsigned int 
 
 
 void Tablero :: setFicha(unsigned int x, unsigned int y, unsigned int z, Ficha* ficha){
-	if(this->verificarValoresIngresados(x, y, z)){
+	if(!this->verificarValoresIngresados(x, y, z)){
 		throw "Los valores ingresados no son validos";
 	}
 	this->casilleros->obtener(z)->obtener(y)->obtener(x)->setFicha(ficha);
@@ -84,32 +84,39 @@ bool Tablero :: verificarValoresIngresados(unsigned int x, unsigned int y, unsig
 	return devolver;
 }
 
-Ficha* Tablero :: encotrarFichaEspecifica(unsigned int numeroDeFicha, TipoDeFicha tipo, unsigned int numeroDeJugador){
-	for(unsigned int z = 1; z < this->zMaximo; z++){
-		for(unsigned int y = 1; y < this->yMaximo; y++){
-			for(unsigned int x = 1; x < this->xMaximo; x++){
-				if(this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha() != NULL &&
-				   this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha()->getTipo() == tipo &&
-				   this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha()->getNumero() == numeroDeFicha &&
-				   this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha()->getJugador()->getNumeroDeJugador() == numeroDeJugador){
-					return this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha();
+
+void Tablero :: imprimirMapa(){
+	for(unsigned int z = 1; z <= this->zMaximo; z++){
+		std :: cout << "Nivel numero" << z << std::endl;
+		for(unsigned int y = 1; y <= this->yMaximo; y++){
+			for(unsigned int x = 1; x <= this->xMaximo; x++){
+				if (this->casilleros->obtener(z)->obtener(y)->obtener(x)->getEstado() == Vacio){
+					std:: cout << "|" << "Vacio  "<<"|";
+				} else if (this->casilleros->obtener(z)->obtener(y)->obtener(x)->getEstado() == Ocupado) {
+					std:: cout << "|" << "Ocupado"<<"|";
+				}else if (this->casilleros->obtener(z)->obtener(y)->obtener(x)->getEstado() == Inactivo){
+					std:: cout << "|" << "Inactivo"<<"|";
+					}
 				}
-			}
+			std::cout<<std::endl;
 		}
+		std::cout<<std::endl;
 	}
 }
 
-
 Tablero :: ~Tablero(){
-/*
-	for(int z = 1; z<= this->zMaximo; z++){
-		for(y = 1; y <= this->yMaximo; y++){
-			for( x = 1 <= this->xMaximo; x++){
-				delete this->casilleros->
+
+	for(unsigned int z = 1; z<= this->zMaximo; z++){
+		for(unsigned int y = 1; y <= this->yMaximo; y++){
+			for(unsigned int x = 1 ; x <= this->xMaximo; x++){
+				delete this->casilleros->obtener(z)->obtener(y)->obtener(x);
 			}
+			delete this->casilleros->obtener(z)->obtener(y);
 		}
+		delete this->casilleros->obtener(z);
 	}
-	*/
+	delete this->casilleros;
+
 }
 
 

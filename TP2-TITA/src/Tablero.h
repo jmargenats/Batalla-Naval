@@ -54,7 +54,6 @@ public:
 	 */
 	void imprimirMapa();
 
-	void mostrarTablero();
 	virtual~ Tablero();
 };
 
