@@ -26,24 +26,24 @@ Tablero :: Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMax
 		tierra = (yMaximo + 1)/2;
 	}
 
-	for(unsigned int Z=1; Z <= zMaximo; Z++){
+	for(unsigned int z=1; z <= zMaximo; z++){
 		Lista<Lista<Casillero*>*> *ejeZ = new Lista<Lista<Casillero*>*>;
 
-		for(unsigned int Y=1; Y<= yMaximo; Y++){
+		for(unsigned int y=1; y<= yMaximo; y++){
 
 			Lista<Casillero*> *ejeY = new Lista<Casillero*>;
 
-			for(unsigned int X=1; X<= xMaximo; X++){
-				if(Z==1){
-					if(Y <= tierra){
-						Casillero* nuevoCasillero = new Casillero(X, Y, Z, Tierra);
+			for(unsigned int x=1; x<= xMaximo; x++){
+				if(z==1){
+					if(y <= tierra){
+						Casillero* nuevoCasillero = new Casillero(x, y, z, Tierra);
 						ejeY->agregar(nuevoCasillero);
 					} else {
-						Casillero* nuevoCasillero = new Casillero(X, Y, Z, Agua);
+						Casillero* nuevoCasillero = new Casillero(x, y, z, Agua);
 						ejeY->agregar(nuevoCasillero);
 					}
 				} else {
-					Casillero* nuevoCasillero = new Casillero(X, Y, Z, Aire);
+					Casillero* nuevoCasillero = new Casillero(x, y, z, Aire);
 					ejeY->agregar(nuevoCasillero);
 				}
 
@@ -59,77 +59,49 @@ Tablero :: Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMax
 
 
 Casillero* Tablero :: getCasillero(unsigned int x, unsigned int y, unsigned int z){
+	if(this->verificarValoresIngresados(x, y, z)){
+		throw "Los valores ingresados no son validos";
+	}
 	return this->casilleros->obtener(z)->obtener(y)->obtener(x);
 }
 
-void Tablero :: setCasilla(unsigned int x, unsigned int y, unsigned int z, Casillero*){
-	this->
-}
 
-
-/*
-void Tablero::mostrarTablero() {
-
-	Lista<Lista<Lista<Casillero*>*>*>* auxiliar1 = this->getCasillero();
-	int numeroDePlano = 1;
-	int numeroDeFila = 1;
-	int limiteX = this->xMaximo;
-	int limiteY = this->yMaximo;
-
-	auxiliar1->iniciarCursor();
-	while (auxiliar1->avanzarCursor()) {
-
-		Lista<Lista<Casillero*>*>* auxiliar2 = auxiliar1->obtenerCursor();
-		auxiliar2->iniciarCursor();
-		std::cout << std::endl << "nivel " << numeroDePlano << std::endl;
-		int y = 1;
-
-		while (auxiliar2->avanzarCursor()){
-
-			Lista<Casillero*>* auxiliar3 = auxiliar2->obtenerCursor();
-			auxiliar3->iniciarCursor();
-			int x = 1;
-
-			while (auxiliar3->avanzarCursor()){
-
-				Casillero* auxiliar4 = auxiliar3->obtenerCursor();
-
-
-				std::cout << " " << auxiliar4->getTipo()<< " ";
-				if (x != limiteX) {
-					std::cout << "|";
-				}
-				x++;
-
-			}
-			std::cout << " " << numeroDeFila << std::endl;
-			numeroDeFila++;
-			if (y != limiteY) {
-				for(int i = 1; i <= limiteX; i++) {
-					std::cout << "---";
-					if (i != limiteX) {
-						std::cout << "|";
-					}
-				}
-				std::cout << std::endl;
-			}
-			y++;
-
-		}
-
-		for(int i = 1; i <= limiteX; i++) {
-			std::cout << " " << i << "  ";
-		}
-		numeroDeFila = 1;
-		numeroDePlano++;
-		std::cout<<std::endl;
+void Tablero :: setFicha(unsigned int x, unsigned int y, unsigned int z, Ficha* ficha){
+	if(this->verificarValoresIngresados(x, y, z)){
+		throw "Los valores ingresados no son validos";
 	}
-
-	std::cout << std::endl;
+	this->casilleros->obtener(z)->obtener(y)->obtener(x)->setFicha(ficha);
 }
-*/
+
+bool Tablero :: verificarValoresIngresados(unsigned int x, unsigned int y, unsigned int z){
+	bool devolver = true;
+	if(x < 1 || y < 1 || z < 1){
+		devolver = false;
+	}
+	else if(x > this->xMaximo || y > this->yMaximo || z > this->zMaximo){
+		devolver = false;
+	}
+	return devolver;
+}
+
+Ficha* Tablero :: encotrarFichaEspecifica(unsigned int numeroDeFicha, TipoDeFicha tipo, unsigned int numeroDeJugador){
+	for(unsigned int z = 1; z < this->zMaximo; z++){
+		for(unsigned int y = 1; y < this->yMaximo; y++){
+			for(unsigned int x = 1; x < this->xMaximo; x++){
+				if(this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha() != NULL &&
+				   this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha()->getTipo() == tipo &&
+				   this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha()->getNumero() == numeroDeFicha &&
+				   this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha()->getJugador()->getNumeroDeJugador() == numeroDeJugador){
+					return this->casilleros->obtener(z)->obtener(y)->obtener(x)->getFicha();
+				}
+			}
+		}
+	}
+}
+
 
 Tablero :: ~Tablero(){
+/*
 	for(int z = 1; z<= this->zMaximo; z++){
 		for(y = 1; y <= this->yMaximo; y++){
 			for( x = 1 <= this->xMaximo; x++){
@@ -137,6 +109,7 @@ Tablero :: ~Tablero(){
 			}
 		}
 	}
+	*/
 }
 
 

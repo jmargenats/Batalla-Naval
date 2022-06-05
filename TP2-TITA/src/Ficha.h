@@ -16,19 +16,26 @@ class Ficha {
 private:
 	TipoDeFicha tipo;
 	Jugador *jugador;
+	unsigned int numero;
 
 public:
 	/*
 	 * pre:jugador no debe ser vacio
 	 * pos:se crea la ficha con el tipo y el jugador dado)
 	 */
-	Ficha (TipoDeFicha tipo, Jugador *jugador);
+	Ficha (TipoDeFicha tipo, Jugador *jugador, unsigned int numero);
 
 	/*
 	 * pre: -
 	 * pos: -
 	 */
 	virtual ~Ficha();
+
+	/*
+	 * pre: -
+	 * pos: devuelve el numero de la ficha
+	 */
+	unsigned int getNumero();
 
 	/*
 	 * pre: -

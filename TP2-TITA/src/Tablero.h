@@ -23,10 +23,37 @@ public:
 	 */
 	Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMaximo);
 
-
+	/*
+	 * pre: la x, y y z no deben ser menores a 1 ni mayores al sus respectivos maximos
+	 * pos: devuelve un puntero al casillero correspondiente.
+	 */
 	Casillero* getCasillero(unsigned int x, unsigned int y, unsigned int z);
 
-	void setCasilla(unsigned int x, unsigned int y, unsigned int z, Casillero*);
+	/*
+	 * pre: la x, y y z no deben ser menores a 1 ni mayores al sus respectivos maximos
+	 * pos: en la casilla correspondiente la ficha indicada
+	 */
+	void setFicha(unsigned int x, unsigned int y, unsigned int z, Ficha* ficha);
+
+	/*
+	 * pre: -
+	 * pos: devuelve true si los valores ingresados estan dentro del rango correcto
+	 */
+	bool verificarValoresIngresados(unsigned int x, unsigned int y, unsigned int z);
+
+
+
+	/*
+	 *pre: -
+	 *pos: devuelve NULL si no encuentra la ficha en el tablero y devuelve la ficha en cuestion
+	 */
+	Ficha* encotrarFichaEspecifica(unsigned int numeroDeFicha, TipoDeFicha tipo, unsigned int numeroDeJugador);
+
+	/*pre:
+	 * pos: imprime el mapa
+	 */
+	void imprimirMapa();
+
 	void mostrarTablero();
 	virtual~ Tablero();
 };

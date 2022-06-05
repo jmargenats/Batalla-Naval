@@ -10,7 +10,10 @@ using namespace std;
 int main (){
 
 	Tablero tablero(3,3,3);
-	tablero.mostrarTablero();
+//	tablero.mostrarTablero();
+	Jugador *jugador = new Jugador(1, "Gustavo");
+	Ficha *ficha = new Ficha(Soldado, jugador, 1);
+	tablero.setFicha(1, 2, 2, ficha);
 
 
 /*
