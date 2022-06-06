@@ -9,6 +9,7 @@
 #define JUGADOR_H_
 
 #include <string>
+#include "Casillero.h"
 
 class Jugador {
 private:
@@ -37,6 +38,25 @@ public:
 	 * pos: devuelve el nombre del jugador
 	 */
 	std::string getNombreDeJugador();
+
+	/*
+	 *
+	*/
+	//*Carta sacarCarta(); -> No existe ningún TDA Carta
+
+	/*
+	 * pre: La posición seleccionada para el ataque deberá ser valida
+	   post: Si hay un soldado o armamento se elimina, la casilla quedará inactiva haya soldado o no
+	*/
+	void atacar(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Ficha* TipoDeFicha);
+
+	void moverSoldadoOArmamento(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Casillero* nuevaPosicionEnX, Casillero* nuevaPosicionEnY, Casillero* nuevaPosicionEnZ);
+
+	/*
+	 * pre: Recibe posiciones validas
+	   post: Valida que el movimiento a realizar sea horizontal, vertical o diagonal
+	*/
+	bool validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva);
 };
 
 

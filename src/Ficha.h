@@ -10,7 +10,7 @@
 #include "Jugador.h"
 
 enum TipoDeFicha{
-	Soldado, Barco, Avion, Misil
+	Soldado, Barco, Avion
 };
 class Ficha {
 private:
