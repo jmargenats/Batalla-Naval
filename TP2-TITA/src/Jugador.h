@@ -14,7 +14,8 @@
 class Jugador {
 private:
 	unsigned int numeroDeJugador;
-	std::string nombreDeJugador;
+	//std::string nombreDeJugador;
+	unsigned int numeroDeSoldados;
 
 public:
 	/*
@@ -22,7 +23,7 @@ public:
 	 * 		el nombre debe ser diferente a vacio
 	 * pos: se crea el jugador
 	 */
-	Jugador(unsigned int numero, std::string nombre);
+	Jugador(unsigned int numero); //std::string nombre);
 
 	/*
 	 * pos: destruye el jugador
@@ -34,10 +35,11 @@ public:
 	 */
 	unsigned int getNumeroDeJugador();
 
+	unsigned int getNumeroDeSoldados();
 	/*
 	 * pos: devuelve el nombre del jugador
 	 */
-	std::string getNombreDeJugador();
+	//std::string getNombreDeJugador();
 
 	/*
 	 *
@@ -48,7 +50,14 @@ public:
 	 * pre: La posición seleccionada para el ataque deberá ser valida
 	   post: Si hay un soldado o armamento se elimina, la casilla quedará inactiva haya soldado o no
 	*/
-	void atacar(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Ficha* TipoDeFicha);
+	void atacar(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Ficha* TipoDeFicha, unsigned int numeroDEJugador);
+
+
+	/*
+	 * pre: el numero de soldados debe ser mayor a 0
+	 * pos: resta un soldado al contador de soldados
+	 */
+	void restarSoldado();
 
 	void moverSoldadoOArmamento(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Casillero* nuevaPosicionEnX, Casillero* nuevaPosicionEnY, Casillero* nuevaPosicionEnZ);
 

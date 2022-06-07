@@ -2,7 +2,9 @@
 #define LISTA_H_
 
 #include "Nodo.h"
-
+#ifndef NULL
+#define NULL 0
+#endif
 /*
  * Una Lista es una colección dinámica de elementos dispuestos en una secuencia.
  *

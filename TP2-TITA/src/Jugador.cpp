@@ -9,15 +9,17 @@
 #include "Tablero.h"
 #include "Ficha.h"
 
-Jugador :: Jugador(unsigned int numero, std::string nombre){
+Jugador :: Jugador(unsigned int numero){//, std::string nombre){
 	if (numero < 1){
 		throw "El numero de jugador no es valido";
 	}
-	if(nombre == ""){
-		throw "El nombre ingreasdo no es valido";
-	}
+	//if(nombre == ""){
+	//	throw "El nombre ingreasdo no es valido";
+	//}
 	this->numeroDeJugador = numero;
-	this->nombreDeJugador = nombre;
+	//this->nombreDeJugador = nombre;
+
+	this->numeroDeSoldados = 0;
 }
 Jugador ::  ~Jugador(){
 
@@ -26,11 +28,15 @@ unsigned int Jugador :: getNumeroDeJugador(){
 	return this->numeroDeJugador;
 }
 
-std::string Jugador :: getNombreDeJugador(){
-	return this->nombreDeJugador;
+unsigned int Jugador :: getNumeroDeSoldados(){
+	return this->numeroDeSoldados;
 }
 
-void Jugador::atacar(Casillero* x, Casillero* y, Casillero* z, Ficha* tipoDeAtaque){
+//std::string Jugador :: getNombreDeJugador(){
+//	return this->nombreDeJugador;
+//}
+
+void Jugador::atacar(Casillero* x, Casillero* y, Casillero* z, Ficha* tipoDeAtaque, unsigned int numeroDEJugador){
 	if (x->getPosicionEnX() < 1 || y->getPosicionEnY() < 1 || z->getPosicionEnZ() < 1){
 		throw "Los datos ingresados no son correctos";
 	}
@@ -38,11 +44,13 @@ void Jugador::atacar(Casillero* x, Casillero* y, Casillero* z, Ficha* tipoDeAtaq
 	//Chequear que donde se está atacando no haya una ficha de uno mismo
 	//Faltaría ver cómo hacer que ataque 2 veces
 	if(tipoDeAtaque->getTipo()==Soldado){
+		/*
 		for(int i = 0; i < 3; i++){
 			(x)->setEstado(Inactivo);
 			(y)->setEstado(Inactivo);
 			(z)->setEstado(Inactivo);
 		}
+		*/
 	}
 
 	if(tipoDeAtaque->getTipo()==Misil){
@@ -73,6 +81,13 @@ void Jugador::atacar(Casillero* x, Casillero* y, Casillero* z, Ficha* tipoDeAtaq
 		}
 	}
 };
+
+void Jugador :: restarSoldado(){
+	if(this->numeroDeSoldados < 1){
+		throw "El numero de soldados ya es menor a 1";
+	}
+	this->numeroDeSoldados--;
+}
 
 bool Jugador::validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva){
 	int movimientoEnX = xNueva->getPosicionEnX() - x->getPosicionEnX();
