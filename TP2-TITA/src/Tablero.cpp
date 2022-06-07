@@ -26,6 +26,31 @@ Tablero :: Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMax
 		tierra = (yMaximo + 1)/2;
 	}
 
+	//esta función debería estar con la de abajo (que agrega los casilleros)
+	casilleros->iniciarCursor();
+	while(casilleros->avanzarCursor()){
+		Lista<Lista<Casillero*>*> *ejeZ = new Lista<Lista<Casillero*>*>;
+		ejeZ->iniciarCursor();
+		while(ejeZ->avanzarCursor()){
+			Lista<Casillero*> *ejeY = new Lista<Casillero*>;
+			ejeY->iniciarCursor();
+			while(ejeY->avanzarCursor()){
+				Casillero* casillero = ejeY->obtenerCursor();
+				for(unsigned int i = -1; i <= 1; i++){
+					for(unsigned int j = -1; j <= 1; j++){
+						for(unsigned int k = -1; k <= 1; k++){
+							if(i != 0 && j != 0 && k != 0){
+								Casillero* casilleroVecino = getCasillero(casillero->getPosicionEnX() + i, casillero->getPosicionEnY() + j, casillero->getPosicionEnZ() + k);
+								casilleroVecino->setVecino(casilleroVecino, i, j, k);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
 	for(unsigned int z=1; z <= zMaximo; z++){
 		Lista<Lista<Casillero*>*> *ejeZ = new Lista<Lista<Casillero*>*>;
 
