@@ -67,4 +67,11 @@ void Casillero :: vaciar(){
 	this->estado = Vacio;
 }
 
+Casillero* Casillero::getVecino(int x, int y, int z){
+	return this->vecinos[x][y][z];
+};
+
+void Casillero::setVecino(Casillero* casillero, int x, int y, int z){
+	this->vecinos[x + 1][y + 1][z + 1] = casillero;
+};
 

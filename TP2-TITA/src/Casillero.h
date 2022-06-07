@@ -27,6 +27,7 @@ private:
 	unsigned int posicionEnY;
 	unsigned int posicionEnZ;
 	TipoDeCasillero tipo;
+	Casillero* vecinos[3][3][3];
 	Ficha * ficha;
 
 public:
@@ -97,6 +98,10 @@ public:
 	 * pos: vacia el casillero
 	 */
 	void vaciar();
+
+	void setVecino(Casillero* casillero, int x, int y, int z);
+
+	Casillero* getVecino(int x, int y, int z);
 
 
 };

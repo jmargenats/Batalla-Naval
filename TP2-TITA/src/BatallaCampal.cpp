@@ -69,7 +69,7 @@ bool BatallaCampal :: validarNumeroDeJugador(unsigned int numero){
 	return devolver;
 }
 
-void  BatallaCampal :: atacar (unsigned int x, unsigned int  y, unsigned int z,TipoDeFicha tipo, unsigned int numeroDeJugador){
+void  BatallaCampal :: atacar (unsigned int x, unsigned int  y, unsigned int z, TipoDeFicha tipo, unsigned int numeroDeJugador){
 	if (this->validarNumeroDeJugador(numeroDeJugador) == false){
 		throw "el numero del jugador ingresado no es valido";
 	}
@@ -77,8 +77,9 @@ void  BatallaCampal :: atacar (unsigned int x, unsigned int  y, unsigned int z,T
 		throw "Los valores de las posiciones son muy chicos";
 	}
 	if(x > this->getXMaximo() || y > this->getYMaximo() || z > this->getZMaximo()){
-		throw "Los numeros ingresados son muy chicos";
+		throw "Los numeros ingresados son muy chicos"; //muy grandes no será?
 	}
+
 	//en caso de soldado
 	if (tipo == Soldado){
 		if (this->tablero->getCasillero(x, y, z)->getFicha() == NULL){
@@ -93,8 +94,6 @@ void  BatallaCampal :: atacar (unsigned int x, unsigned int  y, unsigned int z,T
 				}
 			}
 		}
-
-
 	}
 }
 

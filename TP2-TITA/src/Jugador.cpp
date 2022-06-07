@@ -97,9 +97,9 @@ bool Jugador::validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casill
     if (movimientoEnY < 0) {movimientoEnY = movimientoEnY * (-1);}
 	if (movimientoEnZ < 0) {movimientoEnZ = movimientoEnZ * (-1);}
 
-    return(movimientoEnX == 0 || movimientoEnY == 0 || movimientoEnZ == 0 ||
-		   movimientoEnX == movimientoEnY || movimientoEnX == movimientoEnZ ||
-		   movimientoEnY == movimientoEnZ);
+    return (movimientoEnX == 0 || movimientoEnY == 0 || movimientoEnZ == 0 ||
+		    movimientoEnX == movimientoEnY || movimientoEnX == movimientoEnZ ||
+		    movimientoEnY == movimientoEnZ);
 };
 
 void Jugador::moverSoldadoOArmamento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva){
