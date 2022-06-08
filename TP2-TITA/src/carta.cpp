@@ -1,10 +1,20 @@
+
+#include <iostream>
+#include<string>
 #include "Ficha.h"
 #include "carta.h"
 
 
-    Carta::Carta(TipoDeCarta tipo){
-        switch (tipo)
-        {
+    Carta::Carta(TipoDeCarta tipo,Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual, BatallaCampal* batallaCampal,Casillero* casillero){
+    	this->tipo = tipo;
+    	this->tablero=tablero;
+    	this->batallaCampal = batallaCampal;
+    	this->jugadores = jugadores;
+    	this->jugadorActual = jugadorActual
+    	this->casillero = casillero;
+
+        switch (this->tipo)
+        { //los enums no pueden repetir nombre
         case Avion:
             //Condición de que avión esté en el aire
             for(int i = 0; i = 2; i++){
@@ -22,9 +32,9 @@
             this->ataqueMisil();
             break;
         case Teletransportarse:
-            this->teletrasportarse();
+            this->Teletrasportarse();
             break;
-        case saltearElTurno:
+        case SaltearElTurno:
             this->saltearTurno();
             break;
         }
@@ -62,14 +72,22 @@
 		}
     };
 
-    void Carta::teletrasportarse(){
-
+    //que la carta sea para transportar un soldado
+    void Carta::teletrasportarse(unsigned int xAntiguo, unsigned int yAntiguo, unsigned int zAntiguo, unsigned int xNuevo, unsigned int yNuevo, unsigned int zNuevo){
+    	Ficha* ficha = NULL;
+    	this->tablero->getCasillero(xAntiguo, yAntiguo, zAntiguo)->setFicha(ficha);
+    	this->tablero->colocarFicha(xNuevo, yNuevo, zNuevo, Soldado, this->jugadorActual, tablero, jugadores);
     };
 
     void Carta::saltearTurno(){
-
+    	//avanzar el puntero de la lsita de jugadores un lugar
     };
 
     void Carta::agregarSoldado(){
-
+    	unsigned int x, y;
+    	std::cout << "Inrese la fila" << std::endl;
+    	std::cin >> x;
+    	std::cout << "Inrese la columna" << std::endl;
+    	std::cin >> y;
+    	this->tablero->colocarFicha(x, y, 1, Soldado, this->jugadorActual, tablero, jugadores);
     };

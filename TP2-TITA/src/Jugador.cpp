@@ -89,6 +89,10 @@ void Jugador :: restarSoldado(){
 	this->numeroDeSoldados--;
 }
 
+void Jugador :: sumarSoldado(){
+	this->numeroDeSoldados++;
+}
+
 bool Jugador::validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva){
 	int movimientoEnX = xNueva->getPosicionEnX() - x->getPosicionEnX();
     int movimientoEnY = yNueva->getPosicionEnX() - y->getPosicionEnX();

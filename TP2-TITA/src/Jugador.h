@@ -59,6 +59,8 @@ public:
 	 */
 	void restarSoldado();
 
+	void sumarSoldado();
+
 	void moverSoldadoOArmamento(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Casillero* nuevaPosicionEnX, Casillero* nuevaPosicionEnY, Casillero* nuevaPosicionEnZ);
 
 	/*

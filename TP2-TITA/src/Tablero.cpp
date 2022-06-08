@@ -129,6 +129,65 @@ void Tablero :: imprimirMapa(){
 	}
 }
 
+void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, TipoDeFicha tipo,Jugador* jugador, Tablero* tablero, Lista<Jugador*>* jugadores){
+	if(!this->verificarValoresIngresados(x, y, z)){
+		throw "valores ingresados no validos";
+	}
+
+	//colocar ficha
+	if(this->getCasillero(x, y, z)->getFicha()!=NULL){
+		//se ocupa de la posicion del soldado que ocupa la casilla actualmente
+		Ficha* ficha = this->getCasillero(x, y, z)->getFicha();
+		ficha->getJugador()->restarSoldado();
+		if (ficha->getJugador()->getNumeroDeSoldados() < 1){
+			jugadores->iniciarCursor();
+			unsigned int posicion = 1;
+			while(jugadores->avanzarCursor()){
+				if (jugadores->obtenerCursor()->getNumeroDeJugador() == ficha->getJugador()->getNumeroDeJugador()){
+					jugadores->remover(posicion);
+					jugadores->iniciarCursor(); // para que no hayan errores en caso de ser le ultimo jugador
+				}
+				posicion++;
+			}
+			delete ficha;
+
+			//el jugador que se esta moviento (restar un soldao y/o eliminar
+			jugadores->iniciarCursor();
+			posicion = 1;
+			while(jugadores->avanzarCursor()){
+				if (jugadores->obtenerCursor()->getNumeroDeJugador() == jugador->getNumeroDeJugador()){
+					jugadores->obtenerCursor()->restarSoldado();
+					if(jugadores->obtenerCursor()->getNumeroDeSoldados() < 1){
+						jugadores->remover(posicion);
+						jugadores->iniciarCursor();
+					}
+				}
+				posicion++;
+			}
+		}
+	} else { //si la casilla esta vacia
+		if(this->getCasillero(x, y, z)->getTipo() == Tierra &&
+				tipo != Soldado){
+			throw "El soldado debe colocarse en la tierra";
+		}
+		if(this->getCasillero(x, y, z)->getTipo() == Agua &&
+				tipo != Barco){
+			throw "El barco debe estar en el agua";
+		}
+		if(this->getCasillero(x, y, z)->getTipo() == Aire &&
+				tipo != Avion){
+			throw "El avion debe estar en el aire";
+		}
+
+		Ficha* ficha = new Ficha(tipo, jugador);
+		this->getCasillero(x, y, z)->setFicha(ficha);
+		if(tipo == Soldado){
+			jugador->sumarSoldado();
+		}
+	}
+
+}
+
 Tablero :: ~Tablero(){
 
 	for(unsigned int z = 1; z<= this->zMaximo; z++){

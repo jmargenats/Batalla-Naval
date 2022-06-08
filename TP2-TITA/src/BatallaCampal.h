@@ -17,6 +17,7 @@ private:
 	unsigned int yMaximo;
 	unsigned int xMaximo;
 	unsigned int zMaximo;
+	unsigned int cantidadDeSoldados;
 	Lista<Jugador*>* jugadores;
 	Tablero *tablero;
 public:
@@ -24,7 +25,7 @@ public:
 	 * pre: todos los atributos ingresados deben ser mayores a 0
 	 * pos: asigna los datos
 	 */
-	BatallaCampal(unsigned int x, unsigned int y, unsigned int z, unsigned int numeroDeJugadores);
+	BatallaCampal(unsigned int x, unsigned int y, unsigned int z, unsigned int numeroDeJugadores, unsigned int cantidadDeSoldados);
 
 	/*
 	 * pre:
@@ -74,6 +75,10 @@ public:
 	 *
 	 */
 	void atacar (unsigned int x, unsigned int y, unsigned int z,TipoDeFicha tipo, unsigned int numeroDeJugador);
+
+	void turno();
+
+	void iniciarSoldados();
 
 	virtual~ BatallaCampal();
 };

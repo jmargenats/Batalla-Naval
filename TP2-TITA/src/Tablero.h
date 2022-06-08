@@ -8,6 +8,7 @@
 #ifndef TABLERO_H_
 #define TABLERO_H_
 #include "Casillero.h"
+#include "ColocarFicha.h"
 #include"Lista.h"
 
 class Tablero{
@@ -41,7 +42,11 @@ public:
 	 */
 	bool verificarValoresIngresados(unsigned int x, unsigned int y, unsigned int z);
 
-
+	/*
+	 * pre: los valores ingresados se deben verificar
+	 * pos: coloca la ficha en el tablero
+	 */
+	void colocarFicha(unsigned int x, unsigned int y, unsigned int z, TipoDeFicha tipo,Jugador* jugador, Tablero* tablero, Lista<Jugador*>* jugadores);
 
 	/*
 	 *pre: -

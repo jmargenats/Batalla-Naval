@@ -5,14 +5,17 @@
  *      Author: juli
  */
 #include "BatallaCampal.h"
+#include<iostream>
+#include <string>
 
-BatallaCampal :: BatallaCampal(unsigned int x, unsigned int y, unsigned int z, unsigned int numeroDeJugadores){
+BatallaCampal :: BatallaCampal(unsigned int x, unsigned int y, unsigned int z, unsigned int numeroDeJugadores, unsigned int cantidadDeSoldados){
 	if(x < 1 || y < 1 || z < 1 || numeroDeJugadores < 1){
 		throw "Los valores ingresados no son validos";
 	}
 	this->xMaximo = x;
 	this->yMaximo = y;
 	this->zMaximo = z;
+	this->cantidadDeSoldados= cantidadDeSoldados;
 	this->numeroDeJugadores = numeroDeJugadores;
 	this->jugadores = new Lista<Jugador*>;
 	this->setJugadores();
@@ -97,6 +100,32 @@ void  BatallaCampal :: atacar (unsigned int x, unsigned int  y, unsigned int z, 
 	}
 }
 
+void BatallaCampal :: iniciarSoldados(){
+	this->jugadores->iniciarCursor();
+	unsigned int x, y;
+	while(this->jugadores->avanzarCursor()){
+		for(unsigned int i = 1; i<=this->cantidadDeSoldados; i++){
+			std::cout << "el jugador numero" << this->jugadores->obtenerCursor()->getNumeroDeJugador() << "debe ingresar sus" << this->cantidadDeSoldados << "soldados" << std::endl;
+			std::cout << "Ingrese la fila"<<std::endl;
+			std::cin << x;
+			std::cout << "Ingrese la columna" << std::endl;
+			std::cin << y;
+			this->tablero->colocarFicha(x, y, 1, Soldado, this->jugadores->obtenerCursor(), tablero, jugadores);
+		}
+	}
+}
+
+void BatallaCampal :: turno(){
+	while(this->seguirJugando()){
+		this->jugadores->iniciarCursor();
+		while (this->jugadores->avanzarCursor()){
+			//repartir cartas
+			//jugarcartas
+			//elegir con que ficha quiere atacar (avion, soldado, barco)
+			//mover la ficha
+		}
+	}
+}
 
 BatallaCampal ::~ BatallaCampal(){
 

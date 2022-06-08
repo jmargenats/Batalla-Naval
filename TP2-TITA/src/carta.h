@@ -8,7 +8,7 @@
 #include <string>
 
 enum TipoDeCarta {
-	Barco, Avion, Misil, Teletransportarse, saltearElTurno, agregarSoldado
+	Barco, Avion, Misil, Teletransportarse, SaltearElTurno, AgregarSoldado
 };
 
 class Carta{
@@ -18,9 +18,10 @@ class Carta{
         Lista<Jugador*>* jugadores;
         BatallaCampal* batallaCampal;
         Casillero* casillero;
+        Jugador * jugadorActual;
 
     public:
-        Carta(TipoDeCarta tipo);
+        Carta(TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual,BatallaCampal* batallaCampal,Casillero* casillero);
         /*
         * pre:
         * post:
@@ -37,7 +38,7 @@ class Carta{
         * pre:
         * post:
         */
-        void teletrasportarse();
+        void teletrasportarse(unsigned int xAntiguo, unsigned int yAntiguo, unsigned int zAntiguo, unsigned int xNuevo, unsigned int yNuevo, unsigned int zNuevo);
 
         /*
         * pre:
