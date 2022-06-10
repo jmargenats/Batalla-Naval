@@ -111,24 +111,32 @@ bool Tablero :: verificarValoresIngresados(unsigned int x, unsigned int y, unsig
 
 
 void Tablero :: imprimirMapa(){
-	for(unsigned int z = 1; z <= this->zMaximo; z++){
-		std :: cout << "Nivel numero" << z << std::endl;
-		for(unsigned int y = 1; y <= this->yMaximo; y++){
-			for(unsigned int x = 1; x <= this->xMaximo; x++){
-				if (this->casilleros->obtener(z)->obtener(y)->obtener(x)->getEstado() == Vacio){
+	this->casilleros->iniciarCursor();
+	unsigned int nivel = 1;
+	while(this->casilleros->avanzarCursor()){
+		std::cout << "nivel:" << nivel <<std::endl;
+		Lista<Lista<Casillero*>*>* profundidad = this->casilleros->obtenerCursor();
+		profundidad->iniciarCursor();
+		while(profundidad->avanzarCursor()){
+			Lista<Casillero*>* largo = profundidad->obtenerCursor();
+			largo->iniciarCursor();
+			while(largo->avanzarCursor()){
+				if (largo->obtenerCursor()->getEstado() == Vacio){
 					std:: cout << "|" << "Vacio  "<<"|";
-				} else if (this->casilleros->obtener(z)->obtener(y)->obtener(x)->getEstado() == Ocupado) {
+				} else if (largo->obtenerCursor()->getEstado() == Ocupado) {
 					std:: cout << "|" << "Ocupado"<<"|";
-				}else if (this->casilleros->obtener(z)->obtener(y)->obtener(x)->getEstado() == Inactivo){
+				}else if (largo->obtenerCursor()->getEstado() == Inactivo){
 					std:: cout << "|" << "Inactivo"<<"|";
-					}
 				}
+			}
 			std::cout<<std::endl;
 		}
+		nivel++;
 		std::cout<<std::endl;
 	}
 }
 
+//verificar que vuelve a iniciar el cursor de jugadores
 void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, TipoDeFicha tipo,Jugador* jugador, Tablero* tablero, Lista<Jugador*>* jugadores){
 	if(!this->verificarValoresIngresados(x, y, z)){
 		throw "valores ingresados no validos";
@@ -138,22 +146,30 @@ void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, Ti
 	if(this->getCasillero(x, y, z)->getFicha()!=NULL){
 		//se ocupa de la posicion del soldado que ocupa la casilla actualmente
 		Ficha* ficha = this->getCasillero(x, y, z)->getFicha();
-		ficha->getJugador()->restarSoldado();
-		if (ficha->getJugador()->getNumeroDeSoldados() < 1){
-			jugadores->iniciarCursor();
-			unsigned int posicion = 1;
-			while(jugadores->avanzarCursor()){
-				if (jugadores->obtenerCursor()->getNumeroDeJugador() == ficha->getJugador()->getNumeroDeJugador()){
-					jugadores->remover(posicion);
-					jugadores->iniciarCursor(); // para que no hayan errores en caso de ser le ultimo jugador
+		if(ficha->getTipo() == Soldado){
+			ficha->getJugador()->restarSoldado();
+			if (ficha->getJugador()->getNumeroDeSoldados() < 1){
+				jugadores->iniciarCursor();
+				unsigned int posicion = 1;
+				while(jugadores->avanzarCursor()){
+					if (jugadores->obtenerCursor()->getNumeroDeJugador() == ficha->getJugador()->getNumeroDeJugador()){
+						jugadores->remover(posicion);
+						jugadores->iniciarCursor(); // para que no hayan errores en caso de ser le ultimo jugador
+					}
+					posicion++;
 				}
-				posicion++;
-			}
-			delete ficha;
+				delete ficha;
 
-			//el jugador que se esta moviento (restar un soldao y/o eliminar
+			}
+		} else { // tipo de ficha no es soldado
+			delete ficha;
+		}
+
+			//el jugador que se esta moviento (restar un soldao y/o eliminar)
+		if (tipo == Soldado){
+			Ficha* ficha = this->getCasillero(x, y, z)->getFicha();
 			jugadores->iniciarCursor();
-			posicion = 1;
+			 int posicion = 1;
 			while(jugadores->avanzarCursor()){
 				if (jugadores->obtenerCursor()->getNumeroDeJugador() == jugador->getNumeroDeJugador()){
 					jugadores->obtenerCursor()->restarSoldado();
@@ -164,7 +180,13 @@ void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, Ti
 				}
 				posicion++;
 			}
+			delete ficha;
 		}
+
+		Ficha* fichaAux = NULL;
+		this->getCasillero(x, y, z)->setFicha(fichaAux);
+		this->getCasillero(x, y, z)->setEstado(Inactivo);
+
 	} else { //si la casilla esta vacia
 		if(this->getCasillero(x, y, z)->getTipo() == Tierra &&
 				tipo != Soldado){
@@ -186,6 +208,23 @@ void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, Ti
 		}
 	}
 
+}
+
+Lista<Lista<Lista<Casillero *> *> *> * Tablero :: getCasilleros(){
+	return this ->casilleros;
+}
+
+
+int Tablero :: getXMaximo(){
+	return this->xMaximo;
+}
+
+int Tablero :: getYMaximo(){
+	return this->yMaximo;
+}
+
+int Tablero :: getZMaximo(){
+	return this->zMaximo;
 }
 
 Tablero :: ~Tablero(){

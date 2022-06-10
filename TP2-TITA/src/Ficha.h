@@ -10,47 +10,47 @@
 #include "Jugador.h"
 
 enum TipoDeFicha{
-	Soldado, Barco, Avion, Misil
+	Soldado, Barco, Avion
 };
 class Ficha {
-	private:
-		TipoDeFicha tipo;
-		Jugador *jugador;
-		//unsigned int numero;
+private:
+	TipoDeFicha tipo;
+	Jugador *jugador;
+	//unsigned int numero;
 
-	public:
-		/*
-		* pre:jugador no debe ser vacio
-		* pos:se crea la ficha con el tipo y el jugador dado)
-		*/
-		Ficha (TipoDeFicha tipo, Jugador *jugador);//, unsigned int numero);
+public:
+	/*
+	* pre:jugador no debe ser vacio
+	* pos:se crea la ficha con el tipo y el jugador dado)
+	*/
+	Ficha (TipoDeFicha tipo, Jugador *jugador);//, unsigned int numero);
 
-		/*
-		* pre: -
-		* pos: -
-		*/
-		virtual ~Ficha();
+	/*
+	* pre: -
+	* pos: -
+	*/
+	virtual ~Ficha();
 
-		/*
-		* pre: -
-		* pos: devuelve el numero de la ficha
-		*/
-		unsigned int getNumero();
+	/*
+	* pre: -
+	* pos: devuelve el numero de la ficha
+	*/
+	unsigned int getNumero();
 
-		/*
-		* pre: -
-		* pos: devuelve el jugador
-		*/
-		Jugador*& getJugador();
+	/*
+	* pre: -
+	* pos: devuelve el jugador
+	*/
+	Jugador* getJugador();
 
-		/*
-		* pre: -
-		* pos: devuelve el tipo de ficha (avion, soldado, etc)
-		*/
-		TipoDeFicha getTipo() const;
+	/*
+	* pre: -
+	* pos: devuelve el tipo de ficha (avion, soldado, etc)
+	*/
+	TipoDeFicha getTipo() const;
 
 
-	};
+};
 
 
 

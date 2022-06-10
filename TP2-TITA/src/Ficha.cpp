@@ -23,7 +23,7 @@ Ficha :: ~Ficha(){
 //	return this->numero;
 //}
 
-Jugador*& Ficha :: getJugador() {
+Jugador* Ficha ::getJugador(){
 	return this-> jugador;
 }
 

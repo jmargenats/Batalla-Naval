@@ -10,6 +10,7 @@
 
 #include "Lista.h"
 #include "Tablero.h"
+#include "carta.h"
 
 class BatallaCampal{
 private:
@@ -20,6 +21,7 @@ private:
 	unsigned int cantidadDeSoldados;
 	Lista<Jugador*>* jugadores;
 	Tablero *tablero;
+	Lista<TipoDeCarta>* cartasDisponibles;
 public:
 	/*
 	 * pre: todos los atributos ingresados deben ser mayores a 0
@@ -64,10 +66,23 @@ public:
 	bool seguirJugando();
 
 	/*
+	 * post: devuelve la lista de cartas disponibles
+	 */
+	Lista<TipoDeCarta>* getCartasDisponibles();
+
+	/*
+	 * pre: el unmero no debe ser menor a 0
+	 * post: devuelve el tipo de carta
+	 */
+	TipoDeCarta ObtenerCarta(int numero);
+
+	/*
 	 * pre: -
 	 * pos: devuelve true si el numero del jugador se encuentra entre las opciones.
 	 */
 	bool validarNumeroDeJugador(unsigned int numero);
+
+	void jugarCarta( Jugador* jugador);
 
 	/*
 	 * pre: el casillero x, y y z deben estar en los limites del cubo, y el numero de jugador debe estar en la lista

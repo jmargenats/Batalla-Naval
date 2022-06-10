@@ -9,13 +9,18 @@
 #define JUGADOR_H_
 
 #include <string>
+#include "Lista.h"
 #include "Casillero.h"
+#include"carta.h"
+#include <iostream>
 
 class Jugador {
 private:
 	unsigned int numeroDeJugador;
 	//std::string nombreDeJugador;
 	unsigned int numeroDeSoldados;
+	Lista<TipoDeCarta> * listaDeCartas;
+	Tablero* tablero;
 
 public:
 	/*
@@ -23,7 +28,7 @@ public:
 	 * 		el nombre debe ser diferente a vacio
 	 * pos: se crea el jugador
 	 */
-	Jugador(unsigned int numero); //std::string nombre);
+	Jugador(unsigned int numero, Tablero* tablero); //std::string nombre);
 
 	/*
 	 * pos: destruye el jugador
@@ -35,7 +40,55 @@ public:
 	 */
 	unsigned int getNumeroDeJugador();
 
+	/*
+	 * post: devuelve el numero de soldados
+	 */
 	unsigned int getNumeroDeSoldados();
+
+	/*
+	 * post: imprime las cartas del jugador
+	 */
+	void imprimeListaDeCartas ();
+
+	/*
+	 *
+	 * post: agrega la carta a la lista de carta
+	 */
+	void agregarCarta(TipoDeCarta tipo);
+
+	/*
+	 * post: imprime el tablero del jugador
+	 */
+	void imprimirTableroPersonal();
+
+	/*
+	 * post: devuelve la lsita de cartas
+	 */
+	Lista<TipoDeCarta> * getListaDeCartas();
+
+	/*
+	 * pre: la carta debe estar en la lsita
+	 * post: elimina la carta de la lista de cartas
+	 */
+	void eliminarCarta(TipoDeCarta tipo);
+
+	/*
+	 * devuelve el tablero
+	 */
+	Tablero* getTablero();
+
+	/*
+	 * post: devuelve true si la carta se encuentra en la lista de cartas
+	 */
+	bool cartaEnLista(TipoDeCarta tipo);
+
+	/*
+	 * post: ataca
+	 */
+	void atacar(Lista<Jugador*>* jugadores);
+
+	void atacarNormal(Lista<Jugador*>* jugadores);
+
 	/*
 	 * pos: devuelve el nombre del jugador
 	 */
@@ -50,7 +103,7 @@ public:
 	 * pre: La posición seleccionada para el ataque deberá ser valida
 	   post: Si hay un soldado o armamento se elimina, la casilla quedará inactiva haya soldado o no
 	*/
-	void atacar(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Ficha* TipoDeFicha, unsigned int numeroDEJugador);
+//	void atacar(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Ficha* TipoDeFicha, unsigned int numeroDEJugador);
 
 
 	/*
@@ -61,13 +114,13 @@ public:
 
 	void sumarSoldado();
 
-	void moverSoldadoOArmamento(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Casillero* nuevaPosicionEnX, Casillero* nuevaPosicionEnY, Casillero* nuevaPosicionEnZ);
+//	void moverSoldadoOArmamento(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Casillero* nuevaPosicionEnX, Casillero* nuevaPosicionEnY, Casillero* nuevaPosicionEnZ);
 
 	/*
 	 * pre: Recibe posiciones validas
 	   post: Valida que el movimiento a realizar sea horizontal, vertical o diagonal
 	*/
-	bool validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva);
+//	bool validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva);
 };
 
 

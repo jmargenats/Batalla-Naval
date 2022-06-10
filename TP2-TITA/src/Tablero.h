@@ -8,7 +8,6 @@
 #ifndef TABLERO_H_
 #define TABLERO_H_
 #include "Casillero.h"
-#include "ColocarFicha.h"
 #include"Lista.h"
 
 class Tablero{
@@ -58,6 +57,19 @@ public:
 	 * pos: imprime el mapa
 	 */
 	void imprimirMapa();
+
+	/*
+	 * devuelve los casilleros
+	 */
+
+	Lista<Lista<Lista<Casillero *> *> *> * getCasilleros();
+
+
+	int getXMaximo();
+
+	int getYMaximo();
+
+	int getZMaximo();
 
 	virtual~ Tablero();
 };
