@@ -79,19 +79,19 @@ public:
 	 * pre: -
 	 * pos: setea la posicion en x
 	 */
-	void setPosicionEnX(int x) const;
+	void setPosicionEnX(unsigned int x);
 
 	/*
 	 * pre: -
 	 * pos: setea la posicion en y
 	 */
-	void setPosicionEnY(int y) const;
+	void setPosicionEnY(unsigned int y);
 
 	/*
 	 * pre: -
 	 * pos: setea la posicion en z
 	 */
-	void setPosicionEnZ(int z) const;
+	void setPosicionEnZ(unsigned int z);
 
 	/*
 	 * pre: -

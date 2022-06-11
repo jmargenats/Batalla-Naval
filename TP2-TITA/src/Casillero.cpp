@@ -43,15 +43,15 @@ unsigned int Casillero :: getPosicionEnZ() const {
 	return this->posicionEnZ;
 }
 
-void Casillero :: setPosicionEnX(int x) const {
+void Casillero :: setPosicionEnX(unsigned int x) {
 	this->posicionEnX = x;
 }
 
-void Casillero :: setPosicionEnY(int y) const {
+void Casillero :: setPosicionEnY(unsigned int y) {
 	this->posicionEnY = y;
 }
 
-void Casillero :: setPosicionEnZ(int z) const {
+void Casillero :: setPosicionEnZ(unsigned int z) {
 	this->posicionEnZ = z;
 }
 

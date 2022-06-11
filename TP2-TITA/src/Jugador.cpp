@@ -46,6 +46,7 @@ unsigned int Jugador :: getNumeroDeSoldados(){
 //	return this->nombreDeJugador;
 //}
 
+//ver con nuevos cambios de AtacarAvion, AtacarBarco
 void Jugador :: imprimeListaDeCartas (){
 	this->listaDeCartas->iniciarCursor();
 	std:: cout << "Tus cartas son:";
