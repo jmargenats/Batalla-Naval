@@ -21,7 +21,7 @@ Jugador :: Jugador(unsigned int numero, Tablero* tablero){//, std::string nombre
 	this->numeroDeJugador = numero;
 	//this->nombreDeJugador = nombre;
 
-	this->listaDeCartas = new Lista<std::string>;
+	this->listaDeCartas = new Lista<Carta*>;
 
 	this->numeroDeSoldados = 0;
 
@@ -51,11 +51,11 @@ void Jugador :: imprimeListaDeCartas (){
 	this->listaDeCartas->iniciarCursor();
 	std:: cout << "Tus cartas son:";
 	while(this->listaDeCartas->avanzarCursor()){
-		TipoDeCarta carta = this->listaDeCartas->obtenerCursor();
-		if(carta == AgregarAvion){
+		TipoDeCarta carta = this->listaDeCartas->obtenerCursor()->obtenerCarta();
+		if(carta == AtaquerAvion){
 			std::cout << " |Agregar Avion| " << std::endl;
 		}
-		else if(carta == AgregarBarco){
+		else if(carta == AtaqueBarco){
 			std::cout << " |Agregar Barco| " << std::endl;
 		}
 		else if(carta == Misil){
@@ -73,11 +73,11 @@ void Jugador :: imprimeListaDeCartas (){
 	}
 }
 
-Lista<TipoDeCarta> * Jugador :: getListaDeCartas(){
+Lista<Carta*> * Jugador :: getListaDeCartas(){
 	return this->listaDeCartas;
 }
 
-void Jugador :: agregarCarta(TipoDeCarta tipo){
+void Jugador :: agregarCarta(Carta* tipo){
 	this->getListaDeCartas()->agregar(tipo);
 }
 
@@ -89,7 +89,7 @@ void Jugador :: eliminarCarta(TipoDeCarta tipo){
 	unsigned int posicion = 0; //revisa la posicion para eliminar la carta
 	unsigned int cantidad = 0;
 	while(this->listaDeCartas->avanzarCursor()){
-		if (this->listaDeCartas->obtenerCursor() == tipo && cantidad < 1){ //solo elimina la primer paracicion de la carta
+		if (this->listaDeCartas->obtenerCursor()->obtenerCarta() == tipo && cantidad < 1){ //solo elimina la primer paracicion de la carta
 			this->listaDeCartas->remover(posicion);
 			cantidad++;
 		}
@@ -100,7 +100,7 @@ void Jugador :: eliminarCarta(TipoDeCarta tipo){
 bool Jugador :: cartaEnLista(TipoDeCarta tipo){
 	this->listaDeCartas->iniciarCursor();
 	while(this->listaDeCartas->avanzarCursor()){
-		if (this->listaDeCartas->obtenerCursor() == tipo){
+		if (this->listaDeCartas->obtenerCursor()->obtenerCarta() == tipo){
 			return true;
 		}
 	}

@@ -134,3 +134,7 @@ void Carta::agregarSoldado(){
 	}
 	this->tablero->colocarFicha(x, y, 1, Soldado, this->jugadorActual, tablero, jugadores);
 };
+
+enum TipoDeCarta Carta::obtenerCarta(){
+	return this->tipo;
+};

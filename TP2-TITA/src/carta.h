@@ -53,6 +53,8 @@ class Carta{
         * post: Agrega un nuevo soldado
         */
         void agregarSoldado();
+
+        enum TipoDeCarta obtenerCarta();
 };
 
 #endif

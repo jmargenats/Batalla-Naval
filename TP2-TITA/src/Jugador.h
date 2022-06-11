@@ -23,7 +23,7 @@ private:
 	unsigned int numeroDeJugador;
 	//std::string nombreDeJugador;
 	unsigned int numeroDeSoldados;
-	Lista<TipoDeCarta>* listaDeCartas;
+	Lista<Carta*>* listaDeCartas;
 	Tablero* tablero;
 
 public:
@@ -58,7 +58,7 @@ public:
 	 *
 	 * post: agrega la carta a la lista de carta
 	 */
-	void agregarCarta(TipoDeCarta tipo);
+	void agregarCarta(Carta* tipo);
 
 	/*
 	 * post: imprime el tablero del jugador
@@ -68,7 +68,7 @@ public:
 	/*
 	 * post: devuelve la lsita de cartas
 	 */
-	Lista<TipoDeCarta> * getListaDeCartas();
+	Lista<Carta*> * getListaDeCartas();
 
 	/*
 	 * pre: la carta debe estar en la lsita
