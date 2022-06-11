@@ -26,8 +26,6 @@ Tablero :: Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMax
 		tierra = (yMaximo + 1)/2;
 	}
 
-	//esta función debería estar con la de abajo (que agrega los casilleros
-
 	for(unsigned int z=1; z <= zMaximo; z++){
 		Lista<Lista<Casillero*>*> *ejeZ = new Lista<Lista<Casillero*>*>;
 
