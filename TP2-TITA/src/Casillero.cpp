@@ -43,6 +43,18 @@ unsigned int Casillero :: getPosicionEnZ() const {
 	return this->posicionEnZ;
 }
 
+void Casillero :: setPosicionEnX(int x) const {
+	this->posicionEnX = x;
+}
+
+void Casillero :: setPosicionEnY(int y) const {
+	this->posicionEnY = y;
+}
+
+void Casillero :: setPosicionEnZ(int z) const {
+	this->posicionEnZ = z;
+}
+
 TipoDeCasillero Casillero :: getTipo() const {
 	return this->tipo;
 }
@@ -66,12 +78,4 @@ void Casillero :: vaciar(){
 	this->ficha = NULL;
 	this->estado = Vacio;
 }
-
-Casillero* Casillero::getVecino(int x, int y, int z){
-	return this->vecinos[x][y][z];
-};
-
-void Casillero::setVecino(Casillero* casillero, int x, int y, int z){
-	this->vecinos[x + 1][y + 1][z + 1] = casillero;
-};
 

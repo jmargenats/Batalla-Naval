@@ -63,6 +63,10 @@ public:
 	 */
 
 	Lista<Lista<Lista<Casillero *> *> *> * getCasilleros();
+	/*
+	 * devuelve una lista con los casilleros vecinos
+	 */
+	Lista<Casillero*>* obtenerCasillerosVecinos(int x, int y, int z);
 
 
 	int getXMaximo();

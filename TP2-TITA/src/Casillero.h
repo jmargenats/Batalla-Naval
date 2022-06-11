@@ -27,7 +27,7 @@ private:
 	unsigned int posicionEnY;
 	unsigned int posicionEnZ;
 	TipoDeCasillero tipo;
-	Casillero* vecinos[3][3][3];
+	Casillero* vecinos[3][3][3]; //Me formo una matriz en 3 dimensiones, quedarían 26 vecinos del puntero del medio
 	Ficha * ficha;
 
 public:
@@ -75,6 +75,23 @@ public:
 	 */
 	unsigned int getPosicionEnZ() const;
 
+	/*
+	 * pre: -
+	 * pos: setea la posicion en x
+	 */
+	void setPosicionEnX(int x) const;
+
+	/*
+	 * pre: -
+	 * pos: setea la posicion en y
+	 */
+	void setPosicionEnY(int y) const;
+
+	/*
+	 * pre: -
+	 * pos: setea la posicion en z
+	 */
+	void setPosicionEnZ(int z) const;
 
 	/*
 	 * pre: -
