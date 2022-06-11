@@ -206,6 +206,7 @@ void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, Ti
 		if(tipo == Soldado){
 			jugador->sumarSoldado();
 		}
+		this->getCasillero(x, y, z)->getFicha()->getJugador()->agregarFicha(tipo);
 	}
 
 }

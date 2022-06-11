@@ -27,7 +27,9 @@ Jugador :: Jugador(unsigned int numero, Tablero* tablero){//, std::string nombre
 
 	this->tablero = tablero;
 
-	this->jugadores = jugadores;
+	this->listaDeFichas = new Lista<TipoDeFicha>;
+
+
 }
 Jugador ::  ~Jugador(){
 
@@ -127,8 +129,25 @@ void Jugador :: atacar(Lista<Jugador*>* jugadores){
 		throw "La ficha no le pertenece";
 	}
 	// fin verificaciones
-
+	int decision;
 	cout << "Elija si quiere atacar con un soldado (1) un Avion(2) o un Barco (3)" << endl;
+	cin >> decision;
+	if(decision == 1 && this->fichaDentroDeLista(Soldado)){
+		cout << "Ingrese su ataque" << endl;
+		this->atacarNormal(jugadores);
+	}
+	if(decision == 2 && this->fichaDentroDeLista(Avion)){
+		cout << "Ingrese su primer ataque" << endl;
+		this->atacarNormal(jugadores);
+		cout << "Ingrese su segundo ataque" << endl;
+		this->atacarNormal(jugadores);
+	}
+	if(decision == 3 && this->fichaDentroDeLista(Barco)){
+		cout << "Ingrese su primer ataque" << endl;
+		this->atacarNormal(jugadores);
+		cout << "Ingrese su segundo ataque" << endl;
+		this->atacarNormal(jugadores);
+	}
 
 
 
@@ -171,54 +190,6 @@ void Jugador :: atacarNormal(Lista<Jugador*>* jugadores){
 	}
 
 }
-
-/*
-void Jugador::atacar(Casillero* x, Casillero* y, Casillero* z, Ficha* tipoDeAtaque, unsigned int numeroDEJugador){
-	if (x->getPosicionEnX() < 1 || y->getPosicionEnY() < 1 || z->getPosicionEnZ() < 1){
-		throw "Los datos ingresados no son correctos";
-	}
-
-	//Chequear que donde se está atacando no haya una ficha de uno mismo
-	//Faltaría ver cómo hacer que ataque 2 veces
-	if(tipoDeAtaque->getTipo()==Soldado){
-		/*
-		for(int i = 0; i < 3; i++){
-			(x)->setEstado(Inactivo);
-			(y)->setEstado(Inactivo);
-			(z)->setEstado(Inactivo);
-		}
-
-	}
-
-	if(tipoDeAtaque->getTipo()==Misil){
-		for(int i = 0; i < 3; i++){
-			(x + i)->setEstado(Inactivo);
-			(y + i)->setEstado(Inactivo);
-			(z + i)->setEstado(Inactivo);
-		}
-	}
-
-	if(tipoDeAtaque->getTipo()==Barco){
-		if(z->getPosicionEnZ() == 1 && (x->getTipo() == Agua && y->getTipo() == Agua && z->getTipo() == Agua)){
-			//Si se cumple esta condición debería atacar normalmente y con un misil
-			for(int i = 0; i < 3; i++){
-				(x + i)->setEstado(Inactivo);
-				(y + i)->setEstado(Inactivo);
-				(z + i)->setEstado(Inactivo);
-			}
-		}
-	}
-
-	if(tipoDeAtaque->getTipo()==Avion){
-		if(z->getPosicionEnZ() == 1 && (x->getTipo() == Aire && y->getTipo() == Aire && z->getTipo() == Aire)){
-			//Si se cumple esta condición debería atacar 2 veces
-			x->setEstado(Inactivo);
-			y->setEstado(Inactivo);
-			z->setEstado(Inactivo);
-		}
-	}
-};
-*/
 
 void Jugador :: imprimirTableroPersonal(){
 	Lista<Lista<Lista<Casillero *> *> *> * casilleros = this->tablero->getCasilleros();
@@ -271,6 +242,60 @@ Tablero* Jugador :: getTablero(){
 	return this->tablero;
 }
 
+Lista<TipoDeFicha>* Jugador :: getListaDeFichas(){
+	return this->listaDeFichas;
+}
+
+void Jugador :: imprimirListaDeFichas(){
+	this->getListaDeFichas()->iniciarCursor();
+	cout << "Sus fichas son: " << endl;
+	while(this->listaDeFichas->avanzarCursor()){
+		TipoDeFicha tipo = this->listaDeFichas->obtenerCursor();
+		if(tipo == Avion){
+			cout << "| Avion |" << endl;
+		}
+		else if(tipo == Barco){
+			cout << "| Barco |" << endl;
+		}
+		else if(tipo == Avion){
+			cout << "|Soldado|" << endl;
+		}
+	}
+}
+
+void Jugador :: agregarFicha(TipoDeFicha tipo){
+	this->getListaDeFichas()->agregar(tipo);
+}
+
+void Jugador :: eliminarFicha(TipoDeFicha tipo){
+	this->listaDeFichas->iniciarCursor();
+	int posicion = 0;
+	int cantidad = 0;
+	while(this->listaDeFichas->avanzarCursor()){
+		TipoDeFicha tipoActual = this->listaDeFichas->obtenerCursor();
+		if(tipoActual == tipo && cantidad < 1){
+			this->getListaDeFichas()->remover(posicion);
+			cantidad++;
+		}
+		posicion++;
+	}
+
+}
+
+bool Jugador :: fichaDentroDeLista(TipoDeFicha tipo){
+	this->listaDeFichas->iniciarCursor();
+
+	while(this->listaDeFichas->avanzarCursor()){
+		TipoDeFicha tipoActual = this->listaDeFichas->obtenerCursor();
+		if(tipoActual == tipo){
+			return true;
+		}
+
+	}
+	return false;
+}
+
+
 //verificar el tema de casillero
 /*
 bool Jugador::validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva){
@@ -287,29 +312,4 @@ bool Jugador::validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casill
 };
 */
 
-//verificar nuevamente los casilleros
-/*
-void Jugador::moverSoldadoOArmamento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva){
-	if (x->getPosicionEnX() < 1 || y->getPosicionEnY() < 1 || z->getPosicionEnZ() < 1){
-		throw "Los datos ingresados no son correctos";
-	}
-
-	if(!(validarMovimiento)){
-		throw "Movimiento no valido";
-	}
-
-	if(x->getEstado() == Ocupado && y->getEstado() == Ocupado && z->getEstado() == Ocupado 
-	   /*&& la ficha es igual a la del jugador actual*/
-	   /*&& no hay una ficha del jugador actual en la nueva posicion){
-		x->setEstado(Vacio);
-		y->setEstado(Vacio);
-		z->setEstado(Vacio);
-
-		//Estos ocupados deberían indicar el tipo de ficha que hay 
-		xNueva->setEstado(Ocupado);
-		yNueva->setEstado(Ocupado);
-		zNueva->setEstado(Ocupado);
-	}
-};
-*/
 

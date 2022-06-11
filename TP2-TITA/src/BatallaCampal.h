@@ -12,6 +12,7 @@
 #include "Tablero.h"
 #include "carta.h"
 
+class Jugador;
 class BatallaCampal{
 private:
 	unsigned int numeroDeJugadores;

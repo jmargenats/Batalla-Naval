@@ -27,7 +27,7 @@ Jugador* Ficha ::getJugador(){
 	return this-> jugador;
 }
 
-TipoDeFicha Ficha :: getTipo() const {
+TipoDeFicha Ficha :: getTipo() {
 	return this-> tipo;
 }
 

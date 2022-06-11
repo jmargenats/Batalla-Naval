@@ -47,7 +47,7 @@ public:
 	* pre: -
 	* pos: devuelve el tipo de ficha (avion, soldado, etc)
 	*/
-	TipoDeFicha getTipo() const;
+	TipoDeFicha getTipo();
 
 
 };

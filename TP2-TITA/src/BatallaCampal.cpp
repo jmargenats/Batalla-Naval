@@ -172,13 +172,13 @@ void BatallaCampal :: turno(){
 			}
 			cout << "sus fichas son: " << endl;
 			jugador->imprimirTableroPersonal();
-			cout << "Si desea mover alguna fiche, presione 1, de lo contrario, presione 2" << endl;
+			cout << "Si desea atacar con alguna ficha, presione 1, de lo contrario, presione 2" << endl;
 			cin >> decision;
 			if (decision == 1){
-				jugador->atacar(posicionEnX, posicionEnY, posicionEnZ, TipoDeFicha, numeroDEJugador)
+				jugador->atacar(this->jugadores);
 			}
 
-			//elegir con que ficha quiere atacar (avion, soldado, barco)
+
 			//mover la ficha
 		}
 	}

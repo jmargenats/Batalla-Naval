@@ -9,17 +9,21 @@
 #define JUGADOR_H_
 
 #include <string>
+#include "Ficha.h"
 #include "Lista.h"
 #include "Casillero.h"
 #include"carta.h"
 #include <iostream>
 
+
+
 class Jugador {
 private:
+	Lista<TipoDeFicha>* listaDeFichas;
 	unsigned int numeroDeJugador;
 	//std::string nombreDeJugador;
 	unsigned int numeroDeSoldados;
-	Lista<TipoDeCarta> * listaDeCartas;
+	Lista<TipoDeCarta>* listaDeCartas;
 	Tablero* tablero;
 
 public:
@@ -89,6 +93,19 @@ public:
 
 	void atacarNormal(Lista<Jugador*>* jugadores);
 
+	/*
+	 * post: devuelve la lista de fichas
+	 */
+
+	Lista<TipoDeFicha>* getListaDeFichas();
+
+	void imprimirListaDeFichas();
+
+	void agregarFicha(TipoDeFicha tipo);
+
+	void eliminarFicha(TipoDeFicha tipo);
+
+	bool fichaDentroDeLista(TipoDeFicha tipo);
 	/*
 	 * pos: devuelve el nombre del jugador
 	 */

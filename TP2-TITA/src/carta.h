@@ -38,8 +38,7 @@ class Carta{
         * pre:
         * post:
         */
-        void teletrasportarse(unsigned int xAntiguo, unsigned int yAntiguo, unsigned int zAntiguo, unsigned int xNuevo, unsigned int yNuevo, unsigned int zNuevo);
-
+        void teletransportarse();
         /*
         * pre:
         * post:
