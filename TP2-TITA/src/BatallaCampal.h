@@ -7,12 +7,15 @@
 
 #ifndef BATALLACAMPAL_H_
 #define BATALLACAMPAL_H_
-
+#ifndef NULL
+#define NULL 0
+#endif
 #include "Lista.h"
 #include "Tablero.h"
-#include "carta.h"
 
+class Tablero;
 class Jugador;
+
 class BatallaCampal{
 private:
 	unsigned int numeroDeJugadores;
@@ -23,6 +26,7 @@ private:
 	Lista<Jugador*>* jugadores;
 	Tablero *tablero;
 	Lista<TipoDeCarta>* cartasDisponibles;
+
 public:
 	/*
 	 * pre: todos los atributos ingresados deben ser mayores a 0
@@ -67,6 +71,7 @@ public:
 	bool seguirJugando();
 
 	/*
+	 * pre: -
 	 * post: devuelve la lista de cartas disponibles
 	 */
 	Lista<TipoDeCarta>* getCartasDisponibles();
@@ -83,7 +88,11 @@ public:
 	 */
 	bool validarNumeroDeJugador(unsigned int numero);
 
-	void jugarCarta( Jugador* jugador);
+	/*
+	 * pre: -
+	 * post: juega la carta que el jugador decide
+	 */
+	void jugarCarta(Jugador* jugador);
 
 	/*
 	 * pre: el casillero x, y y z deben estar en los limites del cubo, y el numero de jugador debe estar en la lista
@@ -92,10 +101,26 @@ public:
 	 */
 	void atacar (unsigned int x, unsigned int y, unsigned int z,TipoDeFicha tipo, unsigned int numeroDeJugador);
 
+	/*
+	 * pre:
+	 * post: contiene todo el turno
+	 */
 	void turno();
 
+
+	/*
+	 * post: inicia los soldados en el tablero
+	 */
 	void iniciarSoldados();
 
+	/*
+	 * post: mueve el armamento o soldado
+	 */
+	void moverSoldadoOArmamento(Jugador* jugador);
+
+	/*
+	 * destructor;
+	 */
 	virtual~ BatallaCampal();
 };
 

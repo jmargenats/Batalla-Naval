@@ -82,6 +82,26 @@ Tablero :: Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMax
 	//std::cout << contador << std::endl;
 }
 
+Lista<Casillero*>* Tablero :: obtenerCasillerosVecinos(int x, int y, int z){
+	Casillero* casillero = this->getCasillero(x,y,z);
+	Lista<Casillero*>* vecinos = new Lista<Casillero*>;
+	Casillero* casilleroVecino;
+	for(unsigned int i = -1; i <= 1; i++){
+		for(unsigned int j = -1; j <= 1; j++){
+			for(unsigned int k = -1; k <= 1; k++){
+				if(i != 0 && j != 0 && k != 0){
+						unsigned int posX = casillero->getPosicionEnX() + i;
+						unsigned int posY = casillero->getPosicionEnY() + j;
+						unsigned int posZ = casillero->getPosicionEnZ() + k;
+						casilleroVecino = this->getCasillero(posX, posY, posZ);
+						vecinos->agregar(casilleroVecino);
+					}
+				}
+			}
+		}
+		return vecinos;
+}
+
 
 Casillero* Tablero :: getCasillero(unsigned int x, unsigned int y, unsigned int z){
 	if(!this->verificarValoresIngresados(x, y, z)){
@@ -121,18 +141,28 @@ void Tablero :: imprimirMapa(){
 			Lista<Casillero*>* largo = profundidad->obtenerCursor();
 			largo->iniciarCursor();
 			while(largo->avanzarCursor()){
-				if (largo->obtenerCursor()->getEstado() == Vacio){
-					std:: cout << "|" << "Vacio  "<<"|";
-				} else if (largo->obtenerCursor()->getEstado() == Ocupado) {
-					std:: cout << "|" << "Ocupado"<<"|";
-				}else if (largo->obtenerCursor()->getEstado() == Inactivo){
-					std:: cout << "|" << "Inactivo"<<"|";
+				if (largo->obtenerCursor()->getTipo() == Tierra){
+					std:: cout << "|" << "Tierra"<<"|";
+				} else if (largo->obtenerCursor()->getTipo() == Agua) {
+					std:: cout << "|" << " Agua "<<"|";
+				}else if (largo->obtenerCursor()->getTipo() == Aire){
+					std:: cout << "|" << " Aire "<<"|";
 				}
 			}
 			std::cout<<std::endl;
 		}
 		nivel++;
 		std::cout<<std::endl;
+	}
+}
+
+// esta funcion se implementa con el for para no mover el cursor de la lista
+void Tablero :: eliminarJugador(Jugador* jugador, Lista<Jugador*>* jugadores){
+	for (unsigned int i = 1; i <= jugadores->contarElementos(); i++){
+		Jugador* jugadorDeLista = jugadores->obtener(i);
+		if(jugadorDeLista->getNumeroDeJugador() == jugador->getNumeroDeJugador()){
+			jugadores->remover(i);
+		}
 	}
 }
 
@@ -149,38 +179,27 @@ void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, Ti
 		if(ficha->getTipo() == Soldado){
 			ficha->getJugador()->restarSoldado();
 			if (ficha->getJugador()->getNumeroDeSoldados() < 1){
-				jugadores->iniciarCursor();
-				unsigned int posicion = 1;
-				while(jugadores->avanzarCursor()){
-					if (jugadores->obtenerCursor()->getNumeroDeJugador() == ficha->getJugador()->getNumeroDeJugador()){
-						jugadores->remover(posicion);
-						jugadores->iniciarCursor(); // para que no hayan errores en caso de ser le ultimo jugador
-					}
-					posicion++;
+				this->eliminarJugador(jugador, jugadores);
 				}
-				delete ficha;
 
-			}
-		} else { // tipo de ficha no es soldado
-			delete ficha;
+		} else  if (ficha->getTipo() == Avion){ // tipo de ficha no es soldado
+			jugador->restarAvion();
+
+		} else { // si es barco
+			jugador->restarBarco();
+
 		}
-
-			//el jugador que se esta moviento (restar un soldao y/o eliminar)
+		delete ficha;
+		//el jugador que se esta moviento (restar un soldao y/o eliminar)
 		if (tipo == Soldado){
-			Ficha* ficha = this->getCasillero(x, y, z)->getFicha();
-			jugadores->iniciarCursor();
-			 int posicion = 1;
-			while(jugadores->avanzarCursor()){
-				if (jugadores->obtenerCursor()->getNumeroDeJugador() == jugador->getNumeroDeJugador()){
-					jugadores->obtenerCursor()->restarSoldado();
-					if(jugadores->obtenerCursor()->getNumeroDeSoldados() < 1){
-						jugadores->remover(posicion);
-						jugadores->iniciarCursor();
-					}
-				}
-				posicion++;
+			jugador->restarSoldado();
+			if (ficha->getJugador()->getNumeroDeSoldados() < 1){
+				this->eliminarJugador(jugador, jugadores);
 			}
-			delete ficha;
+		} else if (tipo == Avion){//en caso de avion
+			jugador->restarAvion();
+		} else { //en caso de barco
+			jugador->restarBarco();
 		}
 
 		Ficha* fichaAux = NULL;
@@ -205,8 +224,11 @@ void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, Ti
 		this->getCasillero(x, y, z)->setFicha(ficha);
 		if(tipo == Soldado){
 			jugador->sumarSoldado();
+		} else if (tipo == Avion){//en caso de avion
+			jugador->sumarAvion();
+		} else { //en caso de barco
+			jugador->sumarBarco();
 		}
-		this->getCasillero(x, y, z)->getFicha()->getJugador()->agregarFicha(tipo);
 	}
 
 }

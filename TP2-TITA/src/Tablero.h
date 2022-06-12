@@ -7,9 +7,13 @@
 
 #ifndef TABLERO_H_
 #define TABLERO_H_
+#include "Lista.h"
 #include "Casillero.h"
-#include"Lista.h"
+#include "Enums.h"
+class Casillero;
+class Ficha;
 
+class Jugador;
 class Tablero{
 private:
 	Lista<Lista<Lista<Casillero *> *> *> * casilleros;
@@ -48,10 +52,9 @@ public:
 	void colocarFicha(unsigned int x, unsigned int y, unsigned int z, TipoDeFicha tipo,Jugador* jugador, Tablero* tablero, Lista<Jugador*>* jugadores);
 
 	/*
-	 *pre: -
-	 *pos: devuelve NULL si no encuentra la ficha en el tablero y devuelve la ficha en cuestion
+	 * elimina un jugador
 	 */
-	Ficha* encotrarFichaEspecifica(unsigned int numeroDeFicha, TipoDeFicha tipo, unsigned int numeroDeJugador);
+	void eliminarJugador(Jugador* jugador, Lista<Jugador*>* jugadores);
 
 	/*pre:
 	 * pos: imprime el mapa
@@ -64,17 +67,35 @@ public:
 
 	Lista<Lista<Lista<Casillero *> *> *> * getCasilleros();
 
+	/*
+	 * devuelve una lista con los casilleros vecinos
+	 */
+	Lista<Casillero*>* obtenerCasillerosVecinos(int x, int y, int z);
 
 	int getXMaximo();
 
+	/*
+	 * devuelve el y maximo
+	 */
 	int getYMaximo();
 
+	/*
+	 * devuelv el z maximo
+	 */
 	int getZMaximo();
 
+	/*
+	 * muestra el tablero
+	 */
+	void mostrarTablero();
+
+	/*
+	 * destructor;
+	 */
 	virtual~ Tablero();
 };
 
-void mostrarTablero();
+
 
 
 #endif /* TABLERO_H_ */

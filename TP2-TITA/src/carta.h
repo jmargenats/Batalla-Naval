@@ -1,53 +1,50 @@
 #ifndef CARTA_H_
 #define CARTA_H_
 
-#include "Ficha.h"
-#include "Tablero.h"
-#include "BatallaCampal.h"
-#include "Casillero.h"
-#include <string>
 
-enum TipoDeCarta {
-	AgregarBarco, AgregarAvion, Misil, TeletransportarSoldado, SaltearElTurno, AgregarSoldado
-};
+#include <string>
+#include "Lista.h"
+#include "Enums.h"
+#include "BatallaCampal.h"
+
+
 class Jugador;
 class Tablero;
 class Carta{
     private:
-        TipoDeCarta tipo;
-        Tablero* tablero; 
-        Lista<Jugador*>* jugadores;
-        Jugador * jugadorActual;
+		Tablero* tablero;
+		Lista<Jugador*>* jugadores;
+		Jugador * jugadorActual;
 
     public:
         Carta(TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual);
 
         /*
         * pre:
-        * post:
+        * post:ataca con un avion
         */
         void ataqueAvionOBarco(unsigned int x, unsigned int y, unsigned int z);
 
         /*
         * pre:
-        * post:
+        * post:ataca con un misil
         */
-        void ataqueMisil();
+        void ataqueMisil(unsigned int x, unsigned int y, unsigned int z);
 
         /*
         * pre:
-        * post:
+        * post: teletransporta un soldado
         */
         void teletransportarse();
         /*
         * pre:
-        * post:
+        * post:saltea un turno
         */
         void saltearTurno();
 
         /*
         * pre:
-        * post:
+        * post: agrega un soldado
         */
         void agregarSoldado();
 };

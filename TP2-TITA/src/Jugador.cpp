@@ -5,11 +5,11 @@
  *      Author: juli
  */
 
-#include "Jugador.h"
-#include "Tablero.h"
-#include "Ficha.h"
+
 #include <iostream>
 using namespace std;
+#include "Jugador.h"
+
 
 Jugador :: Jugador(unsigned int numero, Tablero* tablero){//, std::string nombre){
 	if (numero < 1){
@@ -21,19 +21,21 @@ Jugador :: Jugador(unsigned int numero, Tablero* tablero){//, std::string nombre
 	this->numeroDeJugador = numero;
 	//this->nombreDeJugador = nombre;
 
-	this->listaDeCartas = new Lista<std::string>;
+	this->listaDeCartas = new Lista<TipoDeCarta>;
 
 	this->numeroDeSoldados = 0;
 
 	this->tablero = tablero;
 
-	this->listaDeFichas = new Lista<TipoDeFicha>;
+	this->cantidadDeAviones = 0;
 
+	this->cantidadDeBarcos = 0;
 
 }
 Jugador ::  ~Jugador(){
 
 }
+
 unsigned int Jugador :: getNumeroDeJugador(){
 	return this->numeroDeJugador;
 }
@@ -48,14 +50,16 @@ unsigned int Jugador :: getNumeroDeSoldados(){
 
 void Jugador :: imprimeListaDeCartas (){
 	this->listaDeCartas->iniciarCursor();
-	std:: cout << "Tus cartas son:";
+	std:: cout << "Tus cartas son:"<< endl;
+	int contador = 1;
 	while(this->listaDeCartas->avanzarCursor()){
+		cout << contador<< " :";
 		TipoDeCarta carta = this->listaDeCartas->obtenerCursor();
-		if(carta == AgregarAvion){
-			std::cout << " |Agregar Avion| " << std::endl;
+		if(carta == AtaquerAvion){
+			std::cout << " |Ataque de Avion| " << std::endl;
 		}
-		else if(carta == AgregarBarco){
-			std::cout << " |Agregar Barco| " << std::endl;
+		else if(carta == AtaqueBarco){
+			std::cout << " |Ataque de Barco| " << std::endl;
 		}
 		else if(carta == Misil){
 			std::cout << " |Misil| " << std::endl;
@@ -69,6 +73,7 @@ void Jugador :: imprimeListaDeCartas (){
 		else if(carta == AgregarSoldado){
 			std::cout << " |Agregar Soldado| " << std::endl;
 		}
+		cout<<endl;
 	}
 }
 
@@ -106,55 +111,9 @@ bool Jugador :: cartaEnLista(TipoDeCarta tipo){
 	return false;
 }
 
+
+
 void Jugador :: atacar(Lista<Jugador*>* jugadores){
-	int x, y, z;
-	cout << "Elija la posicion de la ficha con la que quiere atacar" << endl;
-	std::cout << "Inrese la fila" << std::endl;
-	std::cin >> x;
-	std::cout << "Inrese la columna" << std::endl;
-	std::cin >> y;
-	std::cout << "Inrese la altura" << std::endl;
-	std::cin >> z;
-	//verifica que el numero este dentro del tablero
-	if(x < 1 || y < 1 || z < 1){
-		throw "los valores ingresados son muy vajos";
-	}
-	if(x > this->tablero->getXMaximo() || z > this->tablero->getYMaximo() || z > this->tablero->getZMaximo()){
-		throw "Los numeros ingresados son muy altos";
-	}
-	if(this->tablero->getCasillero(x, y, z)->getFicha() == NULL){
-		throw "No hay ninguna ficha en ese casilelro";
-	}
-	if(this->tablero->getCasillero(x, y, z)->getFicha()->getJugador()->getNumeroDeJugador() != this->getNumeroDeJugador()){
-		throw "La ficha no le pertenece";
-	}
-	// fin verificaciones
-	int decision;
-	cout << "Elija si quiere atacar con un soldado (1) un Avion(2) o un Barco (3)" << endl;
-	cin >> decision;
-	if(decision == 1 && this->fichaDentroDeLista(Soldado)){
-		cout << "Ingrese su ataque" << endl;
-		this->atacarNormal(jugadores);
-	}
-	if(decision == 2 && this->fichaDentroDeLista(Avion)){
-		cout << "Ingrese su primer ataque" << endl;
-		this->atacarNormal(jugadores);
-		cout << "Ingrese su segundo ataque" << endl;
-		this->atacarNormal(jugadores);
-	}
-	if(decision == 3 && this->fichaDentroDeLista(Barco)){
-		cout << "Ingrese su primer ataque" << endl;
-		this->atacarNormal(jugadores);
-		cout << "Ingrese su segundo ataque" << endl;
-		this->atacarNormal(jugadores);
-	}
-
-
-
-}
-
-
-void Jugador :: atacarNormal(Lista<Jugador*>* jugadores){
 	int x, y, z;
 	cout << "Elija la posicion a la que quiere atacar" << endl;
 	std::cout << "Inrese la fila" << std::endl;
@@ -168,20 +127,19 @@ void Jugador :: atacarNormal(Lista<Jugador*>* jugadores){
 			this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
 	} else{
 		 Ficha* ficha = casillero->getFicha();
-		 if( casillero->getFicha()->getTipo()==Soldado){ // Debería ser una función porque se repite varias veces, también hay que tener en cuenta que podría haber armamento (que se eliminaría)
+		 if(casillero->getFicha()->getTipo()==Soldado){
 			ficha->getJugador()->restarSoldado();
 			if (ficha->getJugador()->getNumeroDeSoldados() < 1){
-				jugadores->iniciarCursor();
-				unsigned int posicion = 1;
-				while(jugadores->avanzarCursor()){
-					if (jugadores->obtenerCursor()->getNumeroDeJugador() == ficha->getJugador()->getNumeroDeJugador()){
-						jugadores->remover(posicion);
-						jugadores->iniciarCursor(); // para que no hayan errores en caso de ser le ultimo jugador
-					}
-					posicion++;
-				}
+				this->tablero->eliminarJugador(ficha->getJugador(), jugadores);
 			}
-		 }
+
+		 	 } else  if (ficha->getTipo() == Avion){ // tipo de ficha no es soldado
+		 		ficha->getJugador()->restarAvion();
+
+		 	 } else { // si es barco
+		 		ficha->getJugador()->restarBarco();
+
+		 	 }
 
 			Ficha* fichaAux = NULL;
 			casillero->setFicha(fichaAux);
@@ -204,19 +162,25 @@ void Jugador :: imprimirTableroPersonal(){
 			largo->iniciarCursor();
 			while(largo->avanzarCursor()){
 				Casillero* casillero = largo->obtenerCursor();
-				if (casillero->getFicha()->getTipo() == Soldado &&
-					casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()){
-					std:: cout << "|" << " Soldado"<<"|";
-				} else if (casillero->getFicha()->getTipo() == Avion &&
-						   casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()) {
-					std:: cout << "|" << "  Barco "<<"|";
-				}else if (casillero->getFicha()->getTipo() == Barco &&
-						  casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()){
-					std:: cout << "|" << "  Avion "<<"|";
-				} else if(casillero->getEstado() == Inactivo){
-					std:: cout << "|" << "Inactivo"<<"|";
-				} else{
-					std:: cout << "|" << "  Vacio "<<"|";
+				if(casillero->getFicha() != NULL){
+					if (casillero->getFicha()->getTipo() == Soldado &&
+						casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()){
+						std:: cout << "|" << " Soldado"<<"|";
+					} else if (casillero->getFicha()->getTipo() == Avion &&
+							   casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()) {
+						std:: cout << "|" << "  Barco "<<"|";
+					}else if (casillero->getFicha()->getTipo() == Barco &&
+							  casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()){
+						std:: cout << "|" << "  Avion "<<"|";
+					} else {
+						std:: cout << "|" << "  Vacio "<<"|";
+					}
+					} else{
+						if(casillero->getEstado() == Inactivo){
+							std:: cout << "|" << "Inactivo"<<"|";
+						} else if (casillero->getEstado() == Vacio){
+							std:: cout << "|" << "  Vacio "<<"|";
+						}
 				}
 			}
 			std::cout<<std::endl;
@@ -242,74 +206,44 @@ Tablero* Jugador :: getTablero(){
 	return this->tablero;
 }
 
-Lista<TipoDeFicha>* Jugador :: getListaDeFichas(){
-	return this->listaDeFichas;
+int Jugador :: getCantidadDeAviones(){
+	return this->cantidadDeAviones;
 }
 
-void Jugador :: imprimirListaDeFichas(){
-	this->getListaDeFichas()->iniciarCursor();
-	cout << "Sus fichas son: " << endl;
-	while(this->listaDeFichas->avanzarCursor()){
-		TipoDeFicha tipo = this->listaDeFichas->obtenerCursor();
-		if(tipo == Avion){
-			cout << "| Avion |" << endl;
-		}
-		else if(tipo == Barco){
-			cout << "| Barco |" << endl;
-		}
-		else if(tipo == Avion){
-			cout << "|Soldado|" << endl;
-		}
-	}
+int Jugador :: getCantidadDeBarcos(){
+	return this->cantidadDeBarcos;
 }
 
-void Jugador :: agregarFicha(TipoDeFicha tipo){
-	this->getListaDeFichas()->agregar(tipo);
+void Jugador :: sumarBarco(){
+	this->cantidadDeBarcos++;
 }
 
-void Jugador :: eliminarFicha(TipoDeFicha tipo){
-	this->listaDeFichas->iniciarCursor();
-	int posicion = 0;
-	int cantidad = 0;
-	while(this->listaDeFichas->avanzarCursor()){
-		TipoDeFicha tipoActual = this->listaDeFichas->obtenerCursor();
-		if(tipoActual == tipo && cantidad < 1){
-			this->getListaDeFichas()->remover(posicion);
-			cantidad++;
-		}
-		posicion++;
-	}
-
+void Jugador :: restarBarco(){
+	this->cantidadDeBarcos--;
 }
 
-bool Jugador :: fichaDentroDeLista(TipoDeFicha tipo){
-	this->listaDeFichas->iniciarCursor();
-
-	while(this->listaDeFichas->avanzarCursor()){
-		TipoDeFicha tipoActual = this->listaDeFichas->obtenerCursor();
-		if(tipoActual == tipo){
-			return true;
-		}
-
-	}
-	return false;
+void Jugador :: sumarAvion(){
+	this->cantidadDeAviones++;
 }
+
+void Jugador :: restarAvion(){
+	this->cantidadDeAviones--;
+}
+
 
 
 //verificar el tema de casillero
-/*
-bool Jugador::validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva){
-	int movimientoEnX = xNueva->getPosicionEnX() - x->getPosicionEnX();
-    int movimientoEnY = yNueva->getPosicionEnX() - y->getPosicionEnX();
-	int movimientoEnZ = zNueva->getPosicionEnX() - z->getPosicionEnX();
-    if (movimientoEnX < 0) {movimientoEnX = movimientoEnX * (-1);}
-    if (movimientoEnY < 0) {movimientoEnY = movimientoEnY * (-1);}
-	if (movimientoEnZ < 0) {movimientoEnZ = movimientoEnZ * (-1);}
 
-    return (movimientoEnX == 0 || movimientoEnY == 0 || movimientoEnZ == 0 ||
-		    movimientoEnX == movimientoEnY || movimientoEnX == movimientoEnZ ||
-		    movimientoEnY == movimientoEnZ);
+bool Jugador::validarMovimiento(int x, int y, int z, int xNueva, int yNueva, int zNueva){
+	if((xNueva == x || xNueva == x - 1|| xNueva == x + 1) &&
+	   (yNueva == y || yNueva == y - 1|| yNueva == y + 1) &&
+	   (zNueva == z || zNueva == z - 1|| zNueva == z + 1)){
+		return true;
+	}
+	return false ;
+
+
 };
-*/
+
 
 

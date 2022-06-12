@@ -1,43 +1,54 @@
 
 #include <iostream>
 #include<string>
-#include "Ficha.h"
+#include"Tablero.h"
 #include "carta.h"
 
 
-Carta :: Carta(TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual){
-	this->tipo = tipo;
-	this->tablero=tablero;
+ Carta::Carta(TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual){
+	 this->tablero = tablero;
+	 this->jugadores = jugadores;
+	 this->jugadorActual = jugadorActual;
 
-	this->jugadores = jugadores;
-	this->jugadorActual = jugadorActual;
-
-	switch (this->tipo)
-	{ //los enums no pueden repetir nombre
-	case AgregarAvion:
-		unsigned int x, y , z;
-		std::cout << "Inrese la fila" << std::endl;
-		std::cin >> x;
-		std::cout << "Inrese la columna" << std::endl;
-		std::cin >> y;
-		std::cout << "Inrese la altura" << std::endl;
-		std::cin >> z;
+	 int x, y, z = 0;
+	switch (tipo)
+	{
+	case AtaquerAvion:
 		//Condición de que avión esté en el aire
-		this->tablero->colocarFicha(x, y, z, Avion, jugadorActual, tablero, jugadores);
+		for(int i = 0; i < 2; i++){
+			std::cout <<  "Ingrese la fila a atacar" << std::endl;
+			std:: cin >> x;
+			std::cout <<  "Ingrese la columna a atacar" << std::endl;
+			std::cin >> y;
+			std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
+			std:: cin >> z;
+            this->ataqueAvionOBarco(x, y, z);
+		}
 		break;
-	case AgregarBarco:
-		unsigned int x, y , z;
-		std::cout << "Inrese la fila" << std::endl;
-		std::cin >> x;
-		std::cout << "Inrese la columna" << std::endl;
-		std::cin >> y;
-		std::cout << "Inrese la altura" << std::endl;
-		std::cin >> z;
-		//Condición de que avión esté en el aire
-		this->tablero->colocarFicha(x, y, z, Barco, jugadorActual, tablero, jugadores);
+	case AtaqueBarco:
+		std::cout <<  "Ingrese la fila a atacar" << std::endl;
+		std:: cin >> x;
+		std::cout <<  "Ingrese la columna a atacar" << std::endl;
+		std:: cin >> y;
+		std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
+		std:: cin >> z;
+		this->ataqueAvionOBarco(x, y, z);
+		std::cout <<  "Ingrese la fila a atacar" << std::endl;
+		std:: cin >> x;
+		std::cout <<  "Ingrese la columna a atacar" << std::endl;
+		std:: cin >> y;
+		std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
+		std:: cin >> z;
+		this->ataqueMisil(x, y, z);
 		break;
 	case Misil:
-		this->ataqueMisil();
+		std::cout <<  "Ingrese la fila a atacar" << std::endl;
+		std:: cin >> x;
+		std::cout <<  "Ingrese la columna a atacar" << std::endl;
+		std:: cin >> y;
+		std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
+		std:: cin >> z;
+        this->ataqueMisil(x, y, z);
 		break;
 	case TeletransportarSoldado:
 		this->teletransportarse();
@@ -45,37 +56,80 @@ Carta :: Carta(TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, J
 	case SaltearElTurno:
 		this->saltearTurno();
 		break;
+
+	default:
+		break;
 	}
 };
-
-
-void Carta::ataqueMisil(){
-	//pide el lugar del ataque
-	unsigned int x, y , z;
-	std::cout << "Inrese la fila" << std::endl;
-	std::cin >> x;
-	std::cout << "Inrese la columna" << std::endl;
-	std::cin >> y;
-	std::cout << "Inrese la altura" << std::endl;
-	std::cin >> z;
-	//Creería que así está bien la implementación para el misil, no entendí bien la verdad
+// obtener(i)->getNumeroDeSoldados() < 1
+void Carta::ataqueAvionOBarco(unsigned int x, unsigned int y, unsigned int z){
+	if(!(tablero->verificarValoresIngresados(x, y, z))){
+		throw "posicion no valida";
+	}
 	if (this->tablero->getCasillero(x, y, z)->getFicha() == NULL){
 		this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
-		this->casillero->getVecino(x, y, z)->setEstado(Inactivo);
-	} else { // Debería ser una función porque se repite varias veces, también hay que tener en cuenta que podría haber armamento (que se eliminaría)
-		this->tablero->getCasillero(x, y, z)->getFicha()->getJugador()->restarSoldado();
-		for(unsigned int i = 1; i <= this->jugadores->contarElementos(); i++){
-			if(this->jugadores->obtener(i)->getNumeroDeSoldados() < 1){
-				if(this->jugadores->obtener(i)->getNumeroDeJugador() == batallaCampal->getNumeroDeJUgadores()){
-					this->jugadores->remover(i);
-				}
+	} else{
+		Ficha* ficha = this->tablero->getCasillero(x, y, z)->getFicha();
+		if(ficha->getTipo() == Soldado){
+			this->jugadorActual->restarSoldado();
+			if(this->jugadorActual->getNumeroDeSoldados() < 1){
+				this->tablero->eliminarJugador(this->jugadorActual, jugadores);
 			}
+		} else if (ficha->getTipo()==Avion){
+			this->jugadorActual->restarAvion();
+		} else {
+			this->jugadorActual->restarBarco();
 		}
+		delete ficha;
+
+
+	}
+	this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
+};
+
+void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
+	if(!(tablero->verificarValoresIngresados(x, y, z))){
+		throw "posicion no valida";
+	}
+	if (this->tablero->getCasillero(x, y, z)->getFicha() != NULL) { // Debería ser una función porque se repite varias veces, también hay que tener en cuenta que podría haber armamento (que se eliminaría)
+		Ficha* ficha = this->tablero->getCasillero(x, y, z)->getFicha();
+		if(ficha->getTipo() == Soldado){
+			this->jugadorActual->restarSoldado();
+			if(this->jugadorActual->getNumeroDeSoldados() < 1){
+				this->tablero->eliminarJugador(this->jugadorActual, jugadores);
+			}
+		} else if (ficha->getTipo()==Avion){
+			this->jugadorActual->restarAvion();
+		} else {
+			this->jugadorActual->restarBarco();
+		}
+		delete ficha;
+}
+	this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
+
+	this->tablero->obtenerCasillerosVecinos(x, y, z)->iniciarCursor(); // ataca a los casilleros alrededor
+		while(this->tablero->obtenerCasillerosVecinos(x, y, z)->avanzarCursor()){
+			Casillero* casilleroVecino = this->tablero->obtenerCasillerosVecinos(x, y, z)->obtenerCursor();
+			if(casilleroVecino->getFicha()==NULL){
+			casilleroVecino->setEstado(Inactivo);
+			} else {
+				Ficha* ficha = this->tablero->getCasillero(x, y, z)->getFicha();
+				if(ficha->getTipo() == Soldado){
+					this->jugadorActual->restarSoldado();
+					if(this->jugadorActual->getNumeroDeSoldados() < 1){
+						this->tablero->eliminarJugador(this->jugadorActual, jugadores);
+					}
+				} else if (ficha->getTipo()==Avion){
+					this->jugadorActual->restarAvion();
+				} else {
+					this->jugadorActual->restarBarco();
+				}
+				casilleroVecino->setEstado(Inactivo);
+				delete ficha;
+			}
 	}
 };
 
-//que la carta sea para transportar un soldado
-//arreglar lo que se pide
 void Carta::teletransportarse(){
 	int xAntiguo, yAntiguo, xNuevo, yNuevo;
 	std::cout <<  "Elija un soldado para transportar, e ingrese sus coordenadas" << std::endl;
@@ -83,11 +137,14 @@ void Carta::teletransportarse(){
 	std::cout <<  "Ingrese la fila" << std::endl;
 	std:: cin >> xAntiguo;
 	std::cout <<  "Ingrese la columna" << std::endl;
-	std::cin << yAntiguo;
+	std::cin >> yAntiguo;
 	std::cout <<  "Ingrese la fila nueva" << std::endl;
 	std:: cin >> xNuevo;
 	std::cout <<  "Ingrese la columna nueva" << std::endl;
-	std::cin << yNuevo;
+	std::cin >> yNuevo;
+	if(!(tablero->verificarValoresIngresados(xNuevo, yNuevo, 1))){
+			throw "posicion no valida";
+	}
 	Ficha* ficha = NULL;
 	this->tablero->getCasillero(xAntiguo, yAntiguo, 1)->setFicha(ficha);
 	this->tablero->colocarFicha(xNuevo, yNuevo, 1, Soldado, this->jugadorActual, tablero, jugadores);
@@ -97,12 +154,14 @@ void Carta::saltearTurno(){
 	this->jugadores->avanzarCursor();
 };
 
-
 void Carta::agregarSoldado(){
 	unsigned int x, y;
 	std::cout << "Inrese la fila" << std::endl;
 	std::cin >> x;
 	std::cout << "Inrese la columna" << std::endl;
 	std::cin >> y;
+	if(!(tablero->verificarValoresIngresados(x, y, 1))){
+			throw "posicion no valida";
+	}
 	this->tablero->colocarFicha(x, y, 1, Soldado, this->jugadorActual, tablero, jugadores);
 };

@@ -4,9 +4,7 @@
  *  Created on: Jun 1, 2022
  *      Author: juli
  */
-
 #include "Casillero.h"
-
 Casillero :: Casillero(unsigned int x, unsigned int y, unsigned int z, TipoDeCasillero tipo){
 	if (x < 1 || y < 1 || z < 1){
 		throw "Los datos ingresados no son correctos";
@@ -47,7 +45,7 @@ TipoDeCasillero Casillero :: getTipo() const {
 	return this->tipo;
 }
 
-Ficha*& Casillero :: getFicha() {
+Ficha* Casillero :: getFicha() {
 	return this->ficha;
 }
 
@@ -74,4 +72,5 @@ Casillero* Casillero::getVecino(int x, int y, int z){
 void Casillero::setVecino(Casillero* casillero, int x, int y, int z){
 	this->vecinos[x + 1][y + 1][z + 1] = casillero;
 };
+
 

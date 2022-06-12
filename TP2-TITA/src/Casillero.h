@@ -10,16 +10,10 @@
 #ifndef NULL
 #define NULL
 #endif
+#include "Enums.h"
 #include "Ficha.h"
 
-enum EstadoDeCasillero{
-	Vacio, Inactivo, Ocupado
-};
-
-enum TipoDeCasillero{
-	Tierra, Aire, Agua, General
-};
-
+class Ficha;
 class Casillero {
 private:
 	EstadoDeCasillero estado;
@@ -85,7 +79,7 @@ public:
 	/*
 	 * pos: devuelve a la ficha que hay en ese casillero
 	 */
-	Ficha*& getFicha();
+	Ficha* getFicha();
 
 	/*
 	 * pre: la ficha no es vacia
@@ -99,6 +93,9 @@ public:
 	 */
 	void vaciar();
 
+	/*
+	 *
+	 */
 	void setVecino(Casillero* casillero, int x, int y, int z);
 
 	Casillero* getVecino(int x, int y, int z);

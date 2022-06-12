@@ -7,18 +7,18 @@
 
 #ifndef FICHA_H_
 #define FICHA_H_
-#include "Jugador.h"
+#include"Jugador.h"
+#include "Enums.h"
 
-enum TipoDeFicha{
-	Soldado, Barco, Avion
-};
+class Jugador;
 class Ficha {
 private:
 	TipoDeFicha tipo;
-	Jugador *jugador;
+	Jugador* jugador;
 	//unsigned int numero;
 
 public:
+
 	/*
 	* pre:jugador no debe ser vacio
 	* pos:se crea la ficha con el tipo y el jugador dado)
