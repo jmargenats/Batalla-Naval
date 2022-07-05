@@ -9,22 +9,21 @@
 #define JUGADOR_H_
 
 #include <string>
-#include "Ficha.h"
-#include "Lista.h"
-#include "Casillero.h"
-#include"carta.h"
 #include <iostream>
+#include "carta.h"
+#include"Tablero.h"
 
-
-
+class Ficha;
+class Tablero;
 class Jugador {
 private:
-	Lista<TipoDeFicha>* listaDeFichas;
 	unsigned int numeroDeJugador;
 	//std::string nombreDeJugador;
 	unsigned int numeroDeSoldados;
-	Lista<Carta*>* listaDeCartas;
+	Lista<TipoDeCarta>* listaDeCartas;
 	Tablero* tablero;
+	int cantidadDeBarcos;
+	int cantidadDeAviones;
 
 public:
 	/*
@@ -58,7 +57,7 @@ public:
 	 *
 	 * post: agrega la carta a la lista de carta
 	 */
-	void agregarCarta(Carta* tipo);
+	void agregarCarta(TipoDeCarta tipo);
 
 	/*
 	 * post: imprime el tablero del jugador
@@ -68,7 +67,7 @@ public:
 	/*
 	 * post: devuelve la lsita de cartas
 	 */
-	Lista<Carta*> * getListaDeCartas();
+	Lista<TipoDeCarta> * getListaDeCartas();
 
 	/*
 	 * pre: la carta debe estar en la lsita
@@ -91,53 +90,52 @@ public:
 	 */
 	void atacar(Lista<Jugador*>* jugadores);
 
-	void atacarNormal(Lista<Jugador*>* jugadores);
-
-	/*
-	 * post: devuelve la lista de fichas
-	 */
-
-	Lista<TipoDeFicha>* getListaDeFichas();
-
-	void imprimirListaDeFichas();
-
-	void agregarFicha(TipoDeFicha tipo);
-
-	void eliminarFicha(TipoDeFicha tipo);
-
-	bool fichaDentroDeLista(TipoDeFicha tipo);
-	/*
-	 * pos: devuelve el nombre del jugador
-	 */
-	//std::string getNombreDeJugador();
-
-	/*
-	 *
-	*/
-	//*Carta sacarCarta(); -> No existe ningún TDA Carta
-
-	/*
-	 * pre: La posición seleccionada para el ataque deberá ser valida
-	   post: Si hay un soldado o armamento se elimina, la casilla quedará inactiva haya soldado o no
-	*/
-//	void atacar(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Ficha* TipoDeFicha, unsigned int numeroDEJugador);
-
-
 	/*
 	 * pre: el numero de soldados debe ser mayor a 0
 	 * pos: resta un soldado al contador de soldados
 	 */
 	void restarSoldado();
 
+	/*
+	 * post: suma un soldado
+	 */
 	void sumarSoldado();
 
-//	void moverSoldadoOArmamento(Casillero* posicionEnX, Casillero* posicionEnY, Casillero* posicionEnZ, Casillero* nuevaPosicionEnX, Casillero* nuevaPosicionEnY, Casillero* nuevaPosicionEnZ);
+	/*
+	 * post: obtiene la cantidad de aviones
+	 */
+	int getCantidadDeAviones();
 
 	/*
-	 * pre: Recibe posiciones validas
-	   post: Valida que el movimiento a realizar sea horizontal, vertical o diagonal
-	*/
-//	bool validarMovimiento(Casillero* x, Casillero* y, Casillero* z, Casillero* xNueva, Casillero* yNueva, Casillero* zNueva);
+	 * post: obtiene la cantidad de barcos
+	 */
+	int getCantidadDeBarcos();
+
+	/*
+	 * suma un barco
+	 */
+	void sumarBarco();
+
+	/*
+	 * resta un barco
+	 */
+	void restarBarco();
+
+	/*
+	 * suma un avion
+	 */
+	void sumarAvion();
+
+	/*
+	 * resta un avion
+	 */
+	void restarAvion();
+
+	/*devuelve true si el movimiento en valido
+	 *
+	 */
+	bool validarMovimiento(int x, int y, int z, int xNueva, int yNueva, int zNueva);
+
 };
 
 

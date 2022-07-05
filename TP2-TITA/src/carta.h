@@ -1,60 +1,52 @@
 #ifndef CARTA_H_
 #define CARTA_H_
 
-#include "Ficha.h"
-#include "Tablero.h"
-#include "BatallaCampal.h"
-#include "Casillero.h"
-#include <string>
 
-enum TipoDeCarta {
-	AtaqueBarco, AtaquerAvion, Misil, TeletransportarSoldado, SaltearElTurno, AgregarSoldado
-};
+#include <string>
+#include "Lista.h"
+#include "Enums.h"
+#include "BatallaCampal.h"
+
+
 class Jugador;
 class Tablero;
 class Carta{
     private:
-        TipoDeCarta tipo;
-        Tablero* tablero; 
-        Lista<Jugador*>* jugadores;
-        Jugador * jugadorActual;
-        Casillero* casillero;
-        BatallaCampal* batallaCampal;
+		Tablero* tablero;
+		Lista<Jugador*>* jugadores;
+		Jugador * jugadorActual;
 
     public:
-        Carta(TipoDeCarta tipo);
+        Carta(TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual);
 
         /*
-        * pre: Las posiciones ingresadas deben ser validas
-        * post: Realiza un ataque, en caso de haber un soldado o armamento lo elimina y vuelve inactiva la casilla, 
-        * en caso contrario solo vuelve inactiva la casilla
+        * pre:
+        * post:ataca con un avion
         */
         void ataqueAvionOBarco(unsigned int x, unsigned int y, unsigned int z);
 
         /*
-        * pre: Las posiciones ingresadas deben ser validas
-        * post: Realiza un ataque, en caso de haber un soldado o armamento lo elimina y vuelve inactiva la casilla, 
-        * en caso contrario solo vuelve inactiva la casilla
+        * pre:
+        * post:ataca con un misil
         */
         void ataqueMisil(unsigned int x, unsigned int y, unsigned int z);
+
         /*
-        * pre: Las posiciones ingresadas deben ser validas
-        * post: Permite a un soldado moverse sin la restricción de movimiento horizontal, diagonal o vertical
+        * pre:
+        * post: teletransporta un soldado
         */
         void teletransportarse();
         /*
-        * pre: -
-        * post: Saltea el turno del siguiente jugador
+        * pre:
+        * post:saltea un turno
         */
         void saltearTurno();
 
         /*
-        * pre: Las posiciones ingresadas deben ser validas
-        * post: Agrega un nuevo soldado
+        * pre:
+        * post: agrega un soldado
         */
         void agregarSoldado();
-
-        enum TipoDeCarta obtenerCarta();
 };
 
 #endif

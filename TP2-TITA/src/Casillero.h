@@ -10,16 +10,10 @@
 #ifndef NULL
 #define NULL
 #endif
+#include "Enums.h"
 #include "Ficha.h"
 
-enum EstadoDeCasillero{
-	Vacio, Inactivo, Ocupado
-};
-
-enum TipoDeCasillero{
-	Tierra, Aire, Agua, General
-};
-
+class Ficha;
 class Casillero {
 private:
 	EstadoDeCasillero estado;
@@ -27,7 +21,7 @@ private:
 	unsigned int posicionEnY;
 	unsigned int posicionEnZ;
 	TipoDeCasillero tipo;
-	Casillero* vecinos[3][3][3]; //Me formo una matriz en 3 dimensiones, quedarían 26 vecinos del puntero del medio
+	Casillero* vecinos[3][3][3];
 	Ficha * ficha;
 
 public:
@@ -75,23 +69,6 @@ public:
 	 */
 	unsigned int getPosicionEnZ() const;
 
-	/*
-	 * pre: -
-	 * pos: setea la posicion en x
-	 */
-	void setPosicionEnX(unsigned int x);
-
-	/*
-	 * pre: -
-	 * pos: setea la posicion en y
-	 */
-	void setPosicionEnY(unsigned int y);
-
-	/*
-	 * pre: -
-	 * pos: setea la posicion en z
-	 */
-	void setPosicionEnZ(unsigned int z);
 
 	/*
 	 * pre: -
@@ -102,7 +79,7 @@ public:
 	/*
 	 * pos: devuelve a la ficha que hay en ese casillero
 	 */
-	Ficha*& getFicha();
+	Ficha* getFicha();
 
 	/*
 	 * pre: la ficha no es vacia
@@ -116,6 +93,9 @@ public:
 	 */
 	void vaciar();
 
+	/*
+	 *
+	 */
 	void setVecino(Casillero* casillero, int x, int y, int z);
 
 	Casillero* getVecino(int x, int y, int z);
