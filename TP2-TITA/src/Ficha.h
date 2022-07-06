@@ -15,7 +15,6 @@ class Ficha {
 private:
 	TipoDeFicha tipo;
 	Jugador* jugador;
-	//unsigned int numero;
 
 public:
 
@@ -27,7 +26,7 @@ public:
 
 	/*
 	* pre: -
-	* pos: -
+	* pos: destructor
 	*/
 	virtual ~Ficha();
 

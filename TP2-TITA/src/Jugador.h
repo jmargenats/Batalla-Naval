@@ -112,27 +112,27 @@ public:
 	int getCantidadDeBarcos();
 
 	/*
-	 * suma un barco
+	 * post: suma un barco
 	 */
 	void sumarBarco();
 
 	/*
-	 * resta un barco
+	 * post: resta un barco
 	 */
 	void restarBarco();
 
 	/*
-	 * suma un avion
+	 * post: suma un avion
 	 */
 	void sumarAvion();
 
 	/*
-	 * resta un avion
+	 * post: resta un avion
 	 */
 	void restarAvion();
 
-	/*devuelve true si el movimiento en valido
-	 *
+	/*
+	 * post: devuelve true si el movimiento es valido
 	 */
 	bool validarMovimiento(int x, int y, int z, int xNueva, int yNueva, int zNueva);
 

@@ -17,13 +17,17 @@ class Carta{
 		Jugador * jugadorActual;
 
     public:
+		/*
+		 * pre:-
+		 * post: depende del tipo de carta que se ingrese, se activa el "Poder" de la carta
+		 */
         Carta(TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual);
 
         /*
         * pre:
         * post:ataca con un avion
         */
-        void ataqueAvionOBarco(unsigned int x, unsigned int y, unsigned int z);
+        void ataqueAvion();
 
         /*
         * pre:
@@ -32,7 +36,7 @@ class Carta{
         void ataqueMisil(unsigned int x, unsigned int y, unsigned int z);
 
         /*
-        * pre:
+        * pre: la posicion ingresada debe ser valida, tanto la antigua como la nueva
         * post: teletransporta un soldado
         */
         void teletransportarse();

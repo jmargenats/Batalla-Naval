@@ -7,8 +7,7 @@ using namespace std;
 
 int main (){
 	//unsigned int x, unsigned int y, unsigned int z, unsigned int numeroDeJugadores, unsigned int cantidadDeSoldados
-	BatallaCampal* juego = new BatallaCampal(10,10,2,2,3);
-
+	BatallaCampal* juego = new BatallaCampal(10,10,10,2,2);
 
 	delete juego;
 

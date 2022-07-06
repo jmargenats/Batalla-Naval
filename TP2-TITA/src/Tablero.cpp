@@ -175,12 +175,13 @@ void Tablero :: colocarFicha (unsigned int x, unsigned int y, unsigned int z, Ti
 	//colocar ficha
 	if(this->getCasillero(x, y, z)->getFicha()!=NULL){
 		//se ocupa de la posicion del soldado que ocupa la casilla actualmente
+		std::cout << "Esa casilla estaba ocupada" << std::endl;
 		Ficha* ficha = this->getCasillero(x, y, z)->getFicha();
 		if(ficha->getTipo() == Soldado){
 			ficha->getJugador()->restarSoldado();
 			if (ficha->getJugador()->getNumeroDeSoldados() < 1){
 				this->eliminarJugador(jugador, jugadores);
-				}
+			}
 
 		} else  if (ficha->getTipo() == Avion){ // tipo de ficha no es soldado
 			jugador->restarAvion();

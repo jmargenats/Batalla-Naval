@@ -16,7 +16,6 @@ Ficha :: Ficha (TipoDeFicha tipo, Jugador *jugador){ //, unsigned int numero){
 }
 
 Ficha :: ~Ficha(){
-	delete jugador;
 }
 
 //unsigned int Ficha :: getNumero(){

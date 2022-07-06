@@ -107,30 +107,32 @@ void BatallaCampal :: iniciarSoldados(){
 	this->jugadores->iniciarCursor();
 	unsigned int x, y, z;
 	while(this->jugadores->avanzarCursor()){
+		std::cout << "el jugador numero " << this->jugadores->obtenerCursor()->getNumeroDeJugador() << " debe ingresar sus " << this->cantidadDeSoldados << " soldados." << std::endl;
 		for(unsigned int i = 1; i<=this->cantidadDeSoldados; i++){
-			std::cout << "el jugador numero " << this->jugadores->obtenerCursor()->getNumeroDeJugador() << " debe ingresar sus " << this->cantidadDeSoldados << " soldados." << std::endl;
-			std::cout << "Ingrese la fila"<<std::endl;
+			std::cout << "soldado " << i << endl;
+			std::cout << "Ingrese la columna"<<std::endl;
 			std::cin >> x;
-			std::cout << "Ingrese la columna" << std::endl;
+			std::cout << "Ingrese la fila" << std::endl;
 			std::cin >> y;
 			this->tablero->colocarFicha(x, y, 1, Soldado, this->jugadores->obtenerCursor(), tablero, jugadores);
 		}
-		std::cout << "Ingrese sus 2 aviones" << this->cantidadDeSoldados << " soldados." << std::endl;
-		for(unsigned int i = 1; i<=2; i++){
-			std::cout << "Ingrese la fila"<<std::endl;
+		std::cout << "Ingrese sus 2 aviones" << std::endl;
+		for(unsigned int i = 1; i<=1; i++){
+			std::cout << "Avion " << i << endl;
+			std::cout << "Ingrese la columna"<<std::endl;
 			std::cin >> x;
-			std::cout << "Ingrese la columna" << std::endl;
+			std::cout << "Ingrese la fila" << std::endl;
 			std::cin >> y;
 			std::cout << "Ingrese la altura" << std::endl;
 			std::cin >> z;
 			this->tablero->colocarFicha(x, y, z, Avion, this->jugadores->obtenerCursor(), tablero, jugadores);
 		}
-		std::cout << "Ingrese sus 2 barcos" << this->cantidadDeSoldados << " soldados." << std::endl;
-		for(unsigned int i = 1; i<=this->cantidadDeSoldados; i++){
-			std::cout << "el jugador numero " << this->jugadores->obtenerCursor()->getNumeroDeJugador() << " debe ingresar sus " << this->cantidadDeSoldados << " soldados." << std::endl;
-			std::cout << "Ingrese la fila"<<std::endl;
+		std::cout << "Ingrese sus 2 barcos" << std::endl;
+		for(unsigned int i = 1; i<=1; i++){
+			std::cout << "Barco " << i << endl;
+			std::cout << "Ingrese la columna"<<std::endl;
 			std::cin >> x;
-			std::cout << "Ingrese la columna" << std::endl;
+			std::cout << "Ingrese la fila" << std::endl;
 			std::cin >> y;
 			this->tablero->colocarFicha(x, y, 1, Barco, this->jugadores->obtenerCursor(), tablero, jugadores);
 		}
@@ -141,7 +143,6 @@ void BatallaCampal :: iniciarSoldados(){
 
 void BatallaCampal :: jugarCarta( Jugador* jugador){
 	int carta;
-//BatallaCampal* batallaCampal,Casillero* casillero
 	cout << "ingrese el numero correspondiente a la opcion de la carta"<< endl;
 	cin >> carta;
 	TipoDeCarta tipo = jugador->getListaDeCartas()->obtener(carta);
@@ -151,12 +152,12 @@ void BatallaCampal :: jugarCarta( Jugador* jugador){
 	if(tipo ==AtaquerAvion && jugador->getCantidadDeAviones() < 1){
 		throw "No tiene Aviones";
 	}
-	//TipoDeCarta tipo, Tablero* tablero, Lista<Jugador*>* jugadores, Jugador * jugadorActual
 	Carta* cartaActual = new Carta(tipo, this->tablero, this->jugadores, jugador);
 	delete cartaActual;
 }
 
 void BatallaCampal :: moverSoldadoOArmamento(Jugador* jugador){
+
 	int x, y , z, xNuevo, yNuevo, zNuevo;
 
 	cout << "Ingrese las coordenadas del soldado o armamento que desea mover" << endl;
@@ -167,10 +168,18 @@ void BatallaCampal :: moverSoldadoOArmamento(Jugador* jugador){
 	cout << "Ingrese la altura" << endl;
 	cin >> z;
 
+	Casillero* casillero = this->tablero->getCasillero(x, y, z);
+	if(casillero->getFicha() == NULL){
+		throw "Ese casillero esta vacio";
+	}
+	if(casillero->getFicha()->getJugador()->getNumeroDeJugador() != jugador->getNumeroDeJugador()){
+		throw "Ese soldado o armamento no le pertenece";
+	}
+
 	cout << "Ingrese las corrdenadas a donde se quiere mover" << endl;
-	cout << "Ingrese la fila" << endl;
-	cin >> xNuevo;
 	cout << "Ingrese la columna" << endl;
+	cin >> xNuevo;
+	cout << "Ingrese la fila" << endl;
 	cin >> yNuevo;
 	cout << "Ingrese la altura" << endl;
 	cin >> zNuevo;
@@ -185,12 +194,16 @@ void BatallaCampal :: turno(){
 	int decision; //para las decisiones del usuario
 	while(this->seguirJugando()){
 		this->jugadores->iniciarCursor();
-		while (this->jugadores->avanzarCursor()){
+		while (this->jugadores->avanzarCursor() && this->jugadores->contarElementos() > 1){
 			Jugador* jugador = this->jugadores->obtenerCursor();
+			jugador->imprimirTableroPersonal();
 			//cuando llega al final de la lista de cartas vuelve al inicio
 			if(carta > 5){
 				carta = 0;
 			}
+			int numero = jugador->getNumeroDeJugador();
+			cout << numero << endl;
+			cout << "Es el turno del jugador " << jugador->getNumeroDeJugador() << endl << endl;
 			cout << "Si desea recibir una carta, precione 1, de lo contrario, presione 2" << endl;
 			cin >> decision;
 			if(decision == 1){
@@ -206,6 +219,7 @@ void BatallaCampal :: turno(){
 
 			if(decision == 1){
 				this->jugarCarta(jugador);
+				jugador->eliminarCarta(jugador->getListaDeCartas()->obtener(carta));
 			}
 
 			cout << "Si desea atacar, presione 1, de lo contrario, presione 2" << endl;
@@ -213,19 +227,30 @@ void BatallaCampal :: turno(){
 			if (decision == 1){
 				jugador->atacar(this->jugadores);
 			}
-			cout << "Si desea atacar, presione 1, de lo contrario, presione 2" << endl;
+			cout << "Si desea moverse, presione 1, de lo contrario, presione 2" << endl;
 			cin >> decision;
 
 			if(decision == 1){
 				this->moverSoldadoOArmamento(jugador);
 			}
 
+
 		}
+		this->jugadores->iniciarCursor();
+		unsigned int ganador = this->jugadores->obtenerCursor()->getNumeroDeJugador();
+		cout << "El ganador es el jugador " << ganador << endl;
 	}
 }
 
 BatallaCampal ::~ BatallaCampal(){
-
+	delete this->tablero;
+	this->jugadores->iniciarCursor();
+	Jugador* jugador = jugadores->obtenerCursor();
+	for(unsigned int i = 1; i<= jugadores->contarElementos(); i++){
+		delete jugador;
+	}
+	delete this->jugadores;
+	delete this->cartasDisponibles;
 }
 
 

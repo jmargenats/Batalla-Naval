@@ -89,7 +89,7 @@ public:
 	bool validarNumeroDeJugador(unsigned int numero);
 
 	/*
-	 * pre: -
+	 * pre: El jugador debe tener el armamento que desea jugar
 	 * post: juega la carta que el jugador decide
 	 */
 	void jugarCarta(Jugador* jugador);
@@ -108,18 +108,19 @@ public:
 	void turno();
 
 
-	/*
+	/* pre: -
 	 * post: inicia los soldados en el tablero
 	 */
 	void iniciarSoldados();
 
 	/*
+	 * pre: el casillero indicado debe pertenecer a un soldado o armamento del jugador y no debe estar vacio
 	 * post: mueve el armamento o soldado
 	 */
 	void moverSoldadoOArmamento(Jugador* jugador);
 
 	/*
-	 * destructor;
+	 * destructor
 	 */
 	virtual~ BatallaCampal();
 };

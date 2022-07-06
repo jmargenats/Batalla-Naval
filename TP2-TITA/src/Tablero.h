@@ -52,7 +52,7 @@ public:
 	void colocarFicha(unsigned int x, unsigned int y, unsigned int z, TipoDeFicha tipo,Jugador* jugador, Tablero* tablero, Lista<Jugador*>* jugadores);
 
 	/*
-	 * elimina un jugador
+	 * post: elimina un jugador
 	 */
 	void eliminarJugador(Jugador* jugador, Lista<Jugador*>* jugadores);
 
@@ -62,32 +62,33 @@ public:
 	void imprimirMapa();
 
 	/*
-	 * devuelve los casilleros
+	 * post: devuelve los casilleros
 	 */
 
 	Lista<Lista<Lista<Casillero *> *> *> * getCasilleros();
 
 	/*
-	 * devuelve una lista con los casilleros vecinos
+	 * post: devuelve una lista con los casilleros vecinos
 	 */
 	Lista<Casillero*>* obtenerCasillerosVecinos(int x, int y, int z);
 
 	int getXMaximo();
 
 	/*
-	 * devuelve el y maximo
+	 * post: devuelve el y maximo
 	 */
 	int getYMaximo();
 
 	/*
-	 * devuelv el z maximo
+	 * post: devuelv el z maximo
 	 */
 	int getZMaximo();
 
 	/*
-	 * muestra el tablero
+	 * post: muestra el tablero
 	 */
 	void mostrarTablero();
+
 
 	/*
 	 * destructor;

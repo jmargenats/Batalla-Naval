@@ -15,29 +15,14 @@
 	{
 	case AtaquerAvion:
 		//Condición de que avión esté en el aire
-		for(int i = 0; i < 2; i++){
-			std::cout <<  "Ingrese la fila a atacar" << std::endl;
-			std:: cin >> x;
-			std::cout <<  "Ingrese la columna a atacar" << std::endl;
-			std::cin >> y;
-			std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
-			std:: cin >> z;
-            this->ataqueAvionOBarco(x, y, z);
-		}
+            this->ataqueAvion();
 		break;
 	case AtaqueBarco:
 		std::cout <<  "Ingrese la fila a atacar" << std::endl;
 		std:: cin >> x;
 		std::cout <<  "Ingrese la columna a atacar" << std::endl;
 		std:: cin >> y;
-		std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
-		std:: cin >> z;
-		this->ataqueAvionOBarco(x, y, z);
-		std::cout <<  "Ingrese la fila a atacar" << std::endl;
-		std:: cin >> x;
-		std::cout <<  "Ingrese la columna a atacar" << std::endl;
-		std:: cin >> y;
-		std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
+		std::cout <<  "Ingrese la altura" << std::endl;
 		std:: cin >> z;
 		this->ataqueMisil(x, y, z);
 		break;
@@ -46,7 +31,7 @@
 		std:: cin >> x;
 		std::cout <<  "Ingrese la columna a atacar" << std::endl;
 		std:: cin >> y;
-		std::cout <<  "Ingrese la produndidad de ataque" << std::endl;
+		std::cout <<  "Ingrese la altura" << std::endl;
 		std:: cin >> z;
         this->ataqueMisil(x, y, z);
 		break;
@@ -62,29 +47,9 @@
 	}
 };
 // obtener(i)->getNumeroDeSoldados() < 1
-void Carta::ataqueAvionOBarco(unsigned int x, unsigned int y, unsigned int z){
-	if(!(tablero->verificarValoresIngresados(x, y, z))){
-		throw "posicion no valida";
-	}
-	if (this->tablero->getCasillero(x, y, z)->getFicha() == NULL){
-		this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
-	} else{
-		Ficha* ficha = this->tablero->getCasillero(x, y, z)->getFicha();
-		if(ficha->getTipo() == Soldado){
-			this->jugadorActual->restarSoldado();
-			if(this->jugadorActual->getNumeroDeSoldados() < 1){
-				this->tablero->eliminarJugador(this->jugadorActual, jugadores);
-			}
-		} else if (ficha->getTipo()==Avion){
-			this->jugadorActual->restarAvion();
-		} else {
-			this->jugadorActual->restarBarco();
-		}
-		delete ficha;
-
-
-	}
-	this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
+void Carta::ataqueAvion(){
+	this->jugadorActual->atacar(jugadores);
+	this->jugadorActual->atacar(jugadores);
 };
 
 void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
@@ -104,7 +69,7 @@ void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
 			this->jugadorActual->restarBarco();
 		}
 		delete ficha;
-}
+	}
 	this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
 
 	this->tablero->obtenerCasillerosVecinos(x, y, z)->iniciarCursor(); // ataca a los casilleros alrededor
@@ -142,6 +107,12 @@ void Carta::teletransportarse(){
 	std:: cin >> xNuevo;
 	std::cout <<  "Ingrese la columna nueva" << std::endl;
 	std::cin >> yNuevo;
+	if(this->tablero->getCasillero(xAntiguo, yAntiguo, 1)->getFicha()==NULL){
+		throw "El casillero ingresado esta vacio";
+	}
+	if(this->tablero->getCasillero(xAntiguo, yAntiguo, 1)->getFicha()->getTipo()!=Soldado){
+		throw "El casillero no tiene un soldado";
+	}
 	if(!(tablero->verificarValoresIngresados(xNuevo, yNuevo, 1))){
 			throw "posicion no valida";
 	}

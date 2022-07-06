@@ -33,7 +33,7 @@ Jugador :: Jugador(unsigned int numero, Tablero* tablero){//, std::string nombre
 
 }
 Jugador ::  ~Jugador(){
-
+	delete this->listaDeCartas;
 }
 
 unsigned int Jugador :: getNumeroDeJugador(){
@@ -74,6 +74,7 @@ void Jugador :: imprimeListaDeCartas (){
 			std::cout << " |Agregar Soldado| " << std::endl;
 		}
 		cout<<endl;
+		contador++;
 	}
 }
 
@@ -90,7 +91,7 @@ void Jugador :: eliminarCarta(TipoDeCarta tipo){
 		throw "La carta no se encuentra en su posecion";
 	}
 	this->listaDeCartas->iniciarCursor();
-	unsigned int posicion = 0; //revisa la posicion para eliminar la carta
+	unsigned int posicion = 1; //revisa la posicion para eliminar la carta
 	unsigned int cantidad = 0;
 	while(this->listaDeCartas->avanzarCursor()){
 		if (this->listaDeCartas->obtenerCursor() == tipo && cantidad < 1){ //solo elimina la primer paracicion de la carta
@@ -122,29 +123,33 @@ void Jugador :: atacar(Lista<Jugador*>* jugadores){
 	std::cin >> y;
 	std::cout << "Inrese la altura" << std::endl;
 	std::cin >> z;
+
 	Casillero* casillero = this->tablero->getCasillero(x, y, z);
 	if (casillero->getFicha() == NULL){
 			this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
 	} else{
 		 Ficha* ficha = casillero->getFicha();
 		 if(casillero->getFicha()->getTipo()==Soldado){
+			 cout << "Eliminaste un soldado!" << endl;
 			ficha->getJugador()->restarSoldado();
 			if (ficha->getJugador()->getNumeroDeSoldados() < 1){
 				this->tablero->eliminarJugador(ficha->getJugador(), jugadores);
 			}
 
-		 	 } else  if (ficha->getTipo() == Avion){ // tipo de ficha no es soldado
-		 		ficha->getJugador()->restarAvion();
+		 } else  if (ficha->getTipo() == Avion){ // tipo de ficha no es soldado
+				cout << "Eliminaste un avion!" << endl;
+				ficha->getJugador()->restarAvion();
 
-		 	 } else { // si es barco
-		 		ficha->getJugador()->restarBarco();
+		 } else { // si es barco
+				cout << "Eliminaste un barco!" << endl;
+				ficha->getJugador()->restarBarco();
 
-		 	 }
+		 }
 
-			Ficha* fichaAux = NULL;
-			casillero->setFicha(fichaAux);
-			casillero->setEstado(Inactivo);
-			delete ficha;
+		Ficha* fichaAux = NULL;
+		casillero->setFicha(fichaAux);
+		casillero->setEstado(Inactivo);
+		delete ficha;
 	}
 
 }
@@ -168,10 +173,10 @@ void Jugador :: imprimirTableroPersonal(){
 						std:: cout << "|" << " Soldado"<<"|";
 					} else if (casillero->getFicha()->getTipo() == Avion &&
 							   casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()) {
-						std:: cout << "|" << "  Barco "<<"|";
+						std:: cout << "|" << "  Avion "<<"|";
 					}else if (casillero->getFicha()->getTipo() == Barco &&
 							  casillero->getFicha()->getJugador()->getNumeroDeJugador() == this->getNumeroDeJugador()){
-						std:: cout << "|" << "  Avion "<<"|";
+						std:: cout << "|" << "  Barco "<<"|";
 					} else {
 						std:: cout << "|" << "  Vacio "<<"|";
 					}
@@ -192,10 +197,9 @@ void Jugador :: imprimirTableroPersonal(){
 }
 
 void Jugador :: restarSoldado(){
-	if(this->numeroDeSoldados < 1){
-		throw "El numero de soldados ya es menor a 1";
+	if(this->numeroDeSoldados != 0){
+		this->numeroDeSoldados--;
 	}
-	this->numeroDeSoldados--;
 }
 
 void Jugador :: sumarSoldado(){

@@ -94,7 +94,7 @@ public:
 	void vaciar();
 
 	/*
-	 *
+	 *post: setea los vecinos
 	 */
 	void setVecino(Casillero* casillero, int x, int y, int z);
 

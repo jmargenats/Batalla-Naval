@@ -18,7 +18,7 @@ Casillero :: Casillero(unsigned int x, unsigned int y, unsigned int z, TipoDeCas
 }
 
 Casillero :: ~Casillero(){
-	delete ficha;
+	delete this->ficha;
 }
 
 EstadoDeCasillero Casillero :: getEstado() const {
@@ -51,10 +51,11 @@ Ficha* Casillero :: getFicha() {
 
 void Casillero :: setFicha(Ficha*& ficha) {
 	if (ficha == NULL){
-		throw "La ficha no puede estar vacia";
+		this->estado = Vacio;
+	} else {
+		this->estado = Ocupado;
 	}
 	this->ficha = ficha;
-	this->estado = Ocupado;
 }
 
 void Casillero :: vaciar(){
