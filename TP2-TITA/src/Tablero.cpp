@@ -86,13 +86,13 @@ Lista<Casillero*>* Tablero :: obtenerCasillerosVecinos(int x, int y, int z){
 	Casillero* casillero = this->getCasillero(x,y,z);
 	Lista<Casillero*>* vecinos = new Lista<Casillero*>;
 	Casillero* casilleroVecino;
-	for(unsigned int i = -1; i <= 1; i++){
-		for(unsigned int j = -1; j <= 1; j++){
-			for(unsigned int k = -1; k <= 1; k++){
-				if(i != 0 && j != 0 && k != 0){
-						unsigned int posX = casillero->getPosicionEnX() + i;
-						unsigned int posY = casillero->getPosicionEnY() + j;
-						unsigned int posZ = casillero->getPosicionEnZ() + k;
+	for(int i = -1; i <= 1; i++){
+		for(int j = -1; j <= 1; j++){
+			for(int k = -1; k <= 1; k++){
+				if(i != 0 || j != 0 || k != 0){
+						int posX = casillero->getPosicionEnX() + i;
+						int posY = casillero->getPosicionEnY() + j;
+						int posZ = casillero->getPosicionEnZ() + k;
 						casilleroVecino = this->getCasillero(posX, posY, posZ);
 						vecinos->agregar(casilleroVecino);
 					}

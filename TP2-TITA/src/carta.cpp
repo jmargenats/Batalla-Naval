@@ -76,9 +76,10 @@ void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
 	}
 	this->tablero->getCasillero(x, y, z)->setEstado(Inactivo);
 
-	this->tablero->obtenerCasillerosVecinos(x, y, z)->iniciarCursor(); // ataca a los casilleros alrededor
-		while(this->tablero->obtenerCasillerosVecinos(x, y, z)->avanzarCursor()){
-			Casillero* casilleroVecino = this->tablero->obtenerCasillerosVecinos(x, y, z)->obtenerCursor();
+	Lista<Casillero*>* casillerosVecinos = this->tablero->obtenerCasillerosVecinos(x, y, z);// ataca a los casilleros alrededor
+	casillerosVecinos->iniciarCursor();
+		while(casillerosVecinos->avanzarCursor()){
+			Casillero* casilleroVecino = casillerosVecinos->obtenerCursor();
 			if(casilleroVecino->getFicha()==NULL){
 			casilleroVecino->setEstado(Inactivo);
 			} else {
