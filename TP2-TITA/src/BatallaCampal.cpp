@@ -154,6 +154,14 @@ void BatallaCampal :: jugarCarta( Jugador* jugador){
 	}
 	Carta* cartaActual = new Carta(tipo, this->tablero, this->jugadores, jugador);
 	delete cartaActual;
+	jugador->eliminarCarta(carta);
+}
+
+void BatallaCampal :: arreglarCursor(Jugador* jugador, Lista<Jugador*>* jugadores){
+	jugadores->iniciarCursor();
+	while(jugadores->avanzarCursor() && jugadores->obtenerCursor() !=jugador){
+
+	}
 }
 
 void BatallaCampal :: moverSoldadoOArmamento(Jugador* jugador){
@@ -191,11 +199,12 @@ void BatallaCampal :: moverSoldadoOArmamento(Jugador* jugador){
 
 void BatallaCampal :: turno(){
 	int carta = 0; // decide que carta se reparte
-	int decision; //para las decisiones del usuario
+	unsigned int decision, numeroGanador; //para las decisiones del usuario
 	while(this->seguirJugando()){
 		this->jugadores->iniciarCursor();
 		while (this->jugadores->avanzarCursor() && this->jugadores->contarElementos() > 1){
 			Jugador* jugador = this->jugadores->obtenerCursor();
+			numeroGanador = jugador->getNumeroDeJugador();
 			jugador->imprimirTableroPersonal();
 			//cuando llega al final de la lista de cartas vuelve al inicio
 			if(carta > 5){
@@ -204,7 +213,7 @@ void BatallaCampal :: turno(){
 			int numero = jugador->getNumeroDeJugador();
 			cout << numero << endl;
 			cout << "Es el turno del jugador " << jugador->getNumeroDeJugador() << endl << endl;
-			cout << "Si desea recibir una carta, precione 1, de lo contrario, presione 2" << endl;
+			cout << "Si desea recibir una carta, presione 1, de lo contrario, presione 2" << endl;
 			cin >> decision;
 			if(decision == 1){
 				//se reparte la carta al jugador
@@ -214,12 +223,11 @@ void BatallaCampal :: turno(){
 
 			cout << "se le ha agregado una carta, sus cartas disponibles son:" << endl;
 			jugador->imprimeListaDeCartas();
-			cout << "Si desea usar una carta aprete '1', de lo contrario aprete '2'";
+			cout << "Si desea usar una carta presione '1', de lo contrario presione '2'";
 			cin >> decision;
 
 			if(decision == 1){
 				this->jugarCarta(jugador);
-				jugador->eliminarCarta(jugador->getListaDeCartas()->obtener(carta));
 			}
 
 			cout << "Si desea atacar, presione 1, de lo contrario, presione 2" << endl;
@@ -234,12 +242,12 @@ void BatallaCampal :: turno(){
 				this->moverSoldadoOArmamento(jugador);
 			}
 
+			this->arreglarCursor(jugador, jugadores);
 
 		}
-		this->jugadores->iniciarCursor();
-		unsigned int ganador = this->jugadores->obtenerCursor()->getNumeroDeJugador();
-		cout << "El ganador es el jugador " << ganador << endl;
+
 	}
+	cout << "El ganador es el jugador " << numeroGanador << endl;
 }
 
 BatallaCampal ::~ BatallaCampal(){

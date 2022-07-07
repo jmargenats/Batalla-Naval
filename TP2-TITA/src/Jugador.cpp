@@ -86,20 +86,11 @@ void Jugador :: agregarCarta(TipoDeCarta tipo){
 	this->getListaDeCartas()->agregar(tipo);
 }
 
-void Jugador :: eliminarCarta(TipoDeCarta tipo){
-	if(!cartaEnLista(tipo)){
+void Jugador :: eliminarCarta(unsigned int posicion){
+	if(posicion < 1 || posicion > this->listaDeCartas->contarElementos()){
 		throw "La carta no se encuentra en su posecion";
 	}
-	this->listaDeCartas->iniciarCursor();
-	unsigned int posicion = 1; //revisa la posicion para eliminar la carta
-	unsigned int cantidad = 0;
-	while(this->listaDeCartas->avanzarCursor()){
-		if (this->listaDeCartas->obtenerCursor() == tipo && cantidad < 1){ //solo elimina la primer paracicion de la carta
-			this->listaDeCartas->remover(posicion);
-			cantidad++;
-		}
-		posicion++;
-	}
+	this->listaDeCartas->remover(posicion);
 }
 
 bool Jugador :: cartaEnLista(TipoDeCarta tipo){

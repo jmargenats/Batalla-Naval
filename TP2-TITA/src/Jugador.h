@@ -70,10 +70,10 @@ public:
 	Lista<TipoDeCarta> * getListaDeCartas();
 
 	/*
-	 * pre: la carta debe estar en la lsita
+	 * pre: la posicion debe ser mayor a 0 y menor al tamanio de la lista
 	 * post: elimina la carta de la lista de cartas
 	 */
-	void eliminarCarta(TipoDeCarta tipo);
+	void eliminarCarta(unsigned int posicion);
 
 	/*
 	 * devuelve el tablero

@@ -120,6 +120,12 @@ public:
 	void moverSoldadoOArmamento(Jugador* jugador);
 
 	/*
+	 *\
+	 * post: arregla el cursor despues de eliminar un jugador
+	 */
+	void arreglarCursor(Jugador* jugador, Lista<Jugador*>* jugadores);
+
+	/*
 	 * destructor
 	 */
 	virtual~ BatallaCampal();

@@ -41,6 +41,9 @@
 	case SaltearElTurno:
 		this->saltearTurno();
 		break;
+	case AgregarSoldado:
+		this->agregarSoldado();
+		break;
 
 	default:
 		break;
@@ -58,15 +61,16 @@ void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
 	}
 	if (this->tablero->getCasillero(x, y, z)->getFicha() != NULL) { // Debería ser una función porque se repite varias veces, también hay que tener en cuenta que podría haber armamento (que se eliminaría)
 		Ficha* ficha = this->tablero->getCasillero(x, y, z)->getFicha();
+		Jugador* jugador = ficha->getJugador();
 		if(ficha->getTipo() == Soldado){
-			this->jugadorActual->restarSoldado();
+			jugador->restarSoldado();
 			if(this->jugadorActual->getNumeroDeSoldados() < 1){
-				this->tablero->eliminarJugador(this->jugadorActual, jugadores);
+				this->tablero->eliminarJugador(jugador, jugadores);
 			}
 		} else if (ficha->getTipo()==Avion){
-			this->jugadorActual->restarAvion();
+			jugador->restarAvion();
 		} else {
-			this->jugadorActual->restarBarco();
+			jugador->restarBarco();
 		}
 		delete ficha;
 	}
@@ -79,15 +83,16 @@ void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
 			casilleroVecino->setEstado(Inactivo);
 			} else {
 				Ficha* ficha = this->tablero->getCasillero(x, y, z)->getFicha();
+				Jugador* jugador = ficha->getJugador();
 				if(ficha->getTipo() == Soldado){
-					this->jugadorActual->restarSoldado();
-					if(this->jugadorActual->getNumeroDeSoldados() < 1){
-						this->tablero->eliminarJugador(this->jugadorActual, jugadores);
+					jugador ->restarSoldado();
+					if(jugador->getNumeroDeSoldados() < 1){
+						this->tablero->eliminarJugador(jugador,  jugadores);
 					}
 				} else if (ficha->getTipo()==Avion){
-					this->jugadorActual->restarAvion();
+					jugador->restarAvion();
 				} else {
-					this->jugadorActual->restarBarco();
+					jugador->restarBarco();
 				}
 				casilleroVecino->setEstado(Inactivo);
 				delete ficha;
@@ -97,8 +102,8 @@ void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
 
 void Carta::teletransportarse(){
 	int xAntiguo, yAntiguo, xNuevo, yNuevo;
-	std::cout <<  "Elija un soldado para transportar, e ingrese sus coordenadas" << std::endl;
 	this->jugadorActual->imprimirTableroPersonal();
+	std::cout <<  "Elija un soldado para transportar, e ingrese sus coordenadas" << std::endl;
 	std::cout <<  "Ingrese la fila" << std::endl;
 	std:: cin >> xAntiguo;
 	std::cout <<  "Ingrese la columna" << std::endl;
