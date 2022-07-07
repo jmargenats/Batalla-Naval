@@ -7,7 +7,7 @@ using namespace std;
 
 int main (){
 
-	/*
+
 	unsigned int x, y, z, numeroJugadores, cantidadSoldados;
 	cout << "Bienvenido a la Batalla Campal" << endl;
 	cout << "Ingrese la cantidad de columnas" << endl;
@@ -20,11 +20,10 @@ int main (){
 	cin >> numeroJugadores;
 	cout << "Ingrese la cantidad de soldados" << endl;
 	cin >> cantidadSoldados;
-*/
-	//unsigned int x, unsigned int y, unsigned int z, unsigned int numeroDeJugadores, unsigned int cantidadDeSoldados
-	//BatallaCampal* juego = new BatallaCampal(x,y,z,numeroJugadores,cantidadSoldados);
 
-	BatallaCampal* juego = new BatallaCampal(10,10,10,2,1);
+	BatallaCampal* juego = new BatallaCampal(x,y,z,numeroJugadores,cantidadSoldados);
+
+	//BatallaCampal* juego = new BatallaCampal(10,10,10,2,1);
 	delete juego;
 
 	return 0;

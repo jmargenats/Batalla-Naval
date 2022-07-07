@@ -6,23 +6,18 @@
  */
 #include "Ficha.h"
 
-Ficha :: Ficha (TipoDeFicha tipo, Jugador *jugador){ //, unsigned int numero){
+Ficha :: Ficha (TipoDeFicha tipo, Jugador *jugador){
 	if(jugador == NULL){
 		throw "Este jugador no es valido";
 	}
 	this->jugador= jugador;
 	this->tipo = tipo;
-	//this->numero = numero;
 }
 
 Ficha :: ~Ficha(){
 }
 
-//unsigned int Ficha :: getNumero(){
-//	return this->numero;
-//}
-
-Jugador* Ficha ::getJugador(){
+Jugador* Ficha :: getJugador(){
 	return this-> jugador;
 }
 

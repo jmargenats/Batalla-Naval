@@ -117,7 +117,7 @@ void BatallaCampal :: iniciarSoldados(){
 			this->tablero->colocarFicha(x, y, 1, Soldado, this->jugadores->obtenerCursor(), tablero, jugadores);
 		}
 		std::cout << "Ingrese sus 2 aviones" << std::endl;
-		for(unsigned int i = 1; i<=1; i++){
+		for(unsigned int i = 1; i<=2; i++){
 			std::cout << "Avion " << i << endl;
 			std::cout << "Ingrese la columna"<<std::endl;
 			std::cin >> x;
@@ -128,7 +128,7 @@ void BatallaCampal :: iniciarSoldados(){
 			this->tablero->colocarFicha(x, y, z, Avion, this->jugadores->obtenerCursor(), tablero, jugadores);
 		}
 		std::cout << "Ingrese sus 2 barcos" << std::endl;
-		for(unsigned int i = 1; i<=1; i++){
+		for(unsigned int i = 1; i<=2; i++){
 			std::cout << "Barco " << i << endl;
 			std::cout << "Ingrese la columna"<<std::endl;
 			std::cin >> x;
@@ -169,9 +169,9 @@ void BatallaCampal :: moverSoldadoOArmamento(Jugador* jugador){
 	int x, y , z, xNuevo, yNuevo, zNuevo;
 
 	cout << "Ingrese las coordenadas del soldado o armamento que desea mover" << endl;
-	cout << "Ingrese la fila" << endl;
-	cin >> x;
 	cout << "Ingrese la columna" << endl;
+	cin >> x;
+	cout << "Ingrese la fila" << endl;
 	cin >> y;
 	cout << "Ingrese la altura" << endl;
 	cin >> z;
@@ -192,7 +192,9 @@ void BatallaCampal :: moverSoldadoOArmamento(Jugador* jugador){
 	cout << "Ingrese la altura" << endl;
 	cin >> zNuevo;
 	if(jugador->validarMovimiento(x, y, z, xNuevo, yNuevo, zNuevo)){
-		this->tablero->colocarFicha(xNuevo, yNuevo, zNuevo, Soldado, jugador, this->tablero, this->jugadores);
+		this->tablero->colocarFicha(xNuevo, yNuevo, zNuevo, casillero->getFicha()->getTipo(), jugador, tablero, jugadores);
+		Ficha* ficha = NULL;
+		this->tablero->getCasillero(x, y, z)->setFicha(ficha);
 	}
 
 }

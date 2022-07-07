@@ -51,8 +51,9 @@
 };
 // obtener(i)->getNumeroDeSoldados() < 1
 void Carta::ataqueAvion(){
-	this->jugadorActual->atacar(jugadores);
-	this->jugadorActual->atacar(jugadores);
+	for(int i = 0; i < 2; i++){
+		this->jugadorActual->atacar(jugadores);
+	}
 };
 
 void Carta::ataqueMisil(unsigned int x, unsigned int y, unsigned int z){
